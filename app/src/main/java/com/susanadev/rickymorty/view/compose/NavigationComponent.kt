@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -31,7 +32,7 @@ fun NavigationComponent(
             val textState = remember { mutableStateOf(TextFieldValue("")) }
             Scaffold(topBar = {
                 TopAppBar(
-                    backgroundColor = MaterialTheme.colors.primary
+                    backgroundColor = Color.DarkGray
                 ) {
                     SearchView(textState, viewModel)
                 }

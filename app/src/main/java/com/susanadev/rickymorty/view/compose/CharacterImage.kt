@@ -23,7 +23,7 @@ fun CharacterImage(detail: CharacterInfo) {
             detail.image
         ),
         contentDescription = null,
-        contentScale = ContentScale.Inside,
+        contentScale = ContentScale.Crop,
         modifier = Modifier
             .padding(4.dp)
             .height(140.dp)

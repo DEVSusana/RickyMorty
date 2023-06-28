@@ -10,6 +10,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -34,7 +35,7 @@ fun DisplayList(
         viewModel.resultCharacterList.collectAsLazyPagingItems()
     }
 
-    Surface(color = MaterialTheme.colors.background) {
+    Surface(color = Color.LightGray) {
         LazyColumn(
             modifier = modifier,
             contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp)

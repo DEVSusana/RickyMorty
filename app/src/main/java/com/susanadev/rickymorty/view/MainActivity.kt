@@ -33,8 +33,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             RickyMortyTheme {
                 Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
+                    modifier = Modifier.fillMaxSize()
                 ) {
                     val navController = rememberNavController()
                     NavigationComponent(

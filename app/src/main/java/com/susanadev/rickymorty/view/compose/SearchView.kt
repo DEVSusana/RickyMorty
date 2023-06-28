@@ -1,5 +1,6 @@
 package com.susanadev.rickymorty.view.compose
 
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -32,7 +33,9 @@ fun SearchView(state: MutableState<TextFieldValue>, viewModel: ViewModel) {
             viewModel.setName(value.text)
             viewModel.invalidateResultDataSource()
         },
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .fillMaxHeight(),
         textStyle = TextStyle(color = Color.White, fontSize = 18.sp),
         leadingIcon = {
             Icon(
@@ -63,14 +66,14 @@ fun SearchView(state: MutableState<TextFieldValue>, viewModel: ViewModel) {
             }
         },
         singleLine = true,
-        placeholder = { Text(text = "Search Beer", color = Color.White) },
+        placeholder = { Text(text = "Search character", color = Color.White) },
         shape = RectangleShape,
         colors = TextFieldDefaults.textFieldColors(
             textColor = Color.White,
             cursorColor = Color.White,
             leadingIconColor = Color.White,
             trailingIconColor = Color.White,
-            backgroundColor = MaterialTheme.colors.primary,
+            backgroundColor = Color.DarkGray,
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent,
             disabledIndicatorColor = Color.Transparent
