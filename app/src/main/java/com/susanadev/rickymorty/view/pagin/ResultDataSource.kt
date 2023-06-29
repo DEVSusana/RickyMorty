@@ -22,7 +22,7 @@ class ResultDataSource(val name: String) : PagingSource<Int, CharacterInfo>() {
                     .getSearchCharacter(outName, nextPage)
 
                 return LoadResult.Page(
-                    data = characterList.body()!!.results.ifEmpty { emptyList() },
+                    data = characterList.body()?.results.orEmpty(),
                     prevKey = null,
                     nextKey = null
                 )
@@ -33,7 +33,7 @@ class ResultDataSource(val name: String) : PagingSource<Int, CharacterInfo>() {
                     .getCharacterList(nextPage)
 
                 return LoadResult.Page(
-                    data = characterList.body()!!.results.ifEmpty { emptyList() },
+                    data = characterList.body()?.results.orEmpty(),
                     prevKey = if (nextPage == 1) null else nextPage - 1,
                     nextKey = nextPage + 1
                 )
