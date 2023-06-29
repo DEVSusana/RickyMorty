@@ -6,14 +6,11 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
@@ -27,11 +24,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.constraintlayout.compose.Dimension
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberAsyncImagePainter
 import com.susanadev.rickymorty.data.model.CharacterInfo
@@ -39,7 +34,7 @@ import com.susanadev.rickymorty.data.utils.Resource
 import com.susanadev.rickymorty.presentation.viewModel.ViewModel
 
 @ExperimentalCoilApi
-@Composable //TODO REVISAR LO QUE SE VA A MOSTRAR Y COMO
+@Composable
 fun DetailView(viewModel: ViewModel, id: Int) {
     LaunchedEffect(id) {
         viewModel.getCharacterDetailResponse(id)
@@ -86,7 +81,12 @@ fun DetailView(viewModel: ViewModel, id: Int) {
                                             contentDescription = null,
                                             contentScale = ContentScale.Crop,
                                             modifier = Modifier
-                                                .clip(RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp))
+                                                .clip(
+                                                    RoundedCornerShape(
+                                                        topStart = 10.dp,
+                                                        topEnd = 10.dp
+                                                    )
+                                                )
                                                 .height(440.dp)
                                                 .constrainAs(imageConstraint) {
                                                     top.linkTo(parent.top)

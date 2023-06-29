@@ -23,7 +23,7 @@ import kotlinx.coroutines.launch
 class ViewModel(
     private val app: Application,
     private val getDetailUseCase: GetDetailUseCase
-) : AndroidViewModel(app){
+) : AndroidViewModel(app) {
 
     var name = mutableStateOf("")
         private set
@@ -34,32 +34,22 @@ class ViewModel(
         if (context == null) return false
         val connectivityManager =
             context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            val capabilities =
-                connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
-            if (capabilities != null) {
-                when {
-                    capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> {
-                        return true
-                    }
+        val capabilities =
+            connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
+        return capabilities.isNetworkCapabilitiesValid()
 
-                    capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> {
-                        return true
-                    }
+    }
 
-                    capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> {
-                        return true
-                    }
-                }
-            }
-        } else {
-            val activeNetworkInfo = connectivityManager.activeNetworkInfo
-            if (activeNetworkInfo != null && activeNetworkInfo.isConnected) {
-                return true
-            }
-        }
-        return false
+    private fun NetworkCapabilities?.isNetworkCapabilitiesValid(): Boolean = when {
+        this == null -> false
+        hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) &&
+                hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED) &&
+                (hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ||
+                        hasTransport(NetworkCapabilities.TRANSPORT_VPN) ||
+                        hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) ||
+                        hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)) -> true
 
+        else -> false
     }
 
     fun invalidateResultDataSource() {
@@ -82,7 +72,7 @@ class ViewModel(
         MutableLiveData<Resource<CharacterInfo>>()
     }
 
-    val getCharacterDetail: LiveData<Resource<CharacterInfo>>  get() = _getCharacterDetail
+    val getCharacterDetail: LiveData<Resource<CharacterInfo>> get() = _getCharacterDetail
 
     fun getCharacterDetailResponse(id: Int) = viewModelScope.launch(Dispatchers.IO) {
         _getCharacterDetail.postValue(Resource.Loading())
@@ -97,7 +87,6 @@ class ViewModel(
             _getCharacterDetail.postValue(Resource.Error(e.message.toString()))
         }
     }
-
 
 
 }

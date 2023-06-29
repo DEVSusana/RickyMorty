@@ -1,4 +1,4 @@
-package com.susanadev.rickymorty.ui.theme
+package com.susanadev.rickymorty.view.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

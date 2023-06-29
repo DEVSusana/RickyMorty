@@ -2,7 +2,6 @@ package com.susanadev.rickymorty.view.compose
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -18,7 +17,6 @@ import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import coil.annotation.ExperimentalCoilApi
-import com.susanadev.rickymorty.data.model.ApiResponse
 import com.susanadev.rickymorty.data.model.CharacterInfo
 import com.susanadev.rickymorty.presentation.viewModel.ViewModel
 
