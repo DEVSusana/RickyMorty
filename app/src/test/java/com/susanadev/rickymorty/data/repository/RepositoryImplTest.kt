@@ -6,9 +6,7 @@ import com.susanadev.rickymorty.data.model.Origin
 import com.susanadev.rickymorty.data.repository.dataSource.RemoteDataSource
 import com.susanadev.rickymorty.data.utils.Resource
 import kotlinx.coroutines.runBlocking
-import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.ResponseBody
 import okhttp3.ResponseBody.Companion.toResponseBody
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
