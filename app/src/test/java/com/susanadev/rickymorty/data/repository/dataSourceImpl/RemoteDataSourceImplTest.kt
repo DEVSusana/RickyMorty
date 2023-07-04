@@ -80,6 +80,28 @@ class RemoteDataSourceImplTest {
         }
     }
 
+    @Test
+    fun testGetCharacterOfIdWithException() {
+        // Set up the mock response with error
+        val mockResponse = MockResponse().setResponseCode(404).setBody("{}")
+        mockWebServer.enqueue(mockResponse)
+
+        // Call the method under test
+        val id = 123 // Set up your desired ID
+        runBlocking {
+            val response = remoteDataSourceImpl.getCharacterOfId(id)
+
+            // Verify the request
+            val recordedRequest = mockWebServer.takeRequest()
+            assertEquals(recordedRequest.path, "/character/$id")
+
+            // Verify the response
+            assertFalse(response.isSuccessful)
+            assertEquals(response.code(), 404)
+        }
+    }
+
+
     private fun convertToJson(obj: Any): String {
         val gson = Gson()
         return gson.toJson(obj)

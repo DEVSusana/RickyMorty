@@ -2,12 +2,13 @@ package com.susanadev.rickymorty.view.pagin
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
+import com.susanadev.rickymorty.data.api.ApiService
 import com.susanadev.rickymorty.data.model.CharacterInfo
 import com.susanadev.rickymorty.presentation.di.NetModule
 import retrofit2.HttpException
 import java.io.IOException
 
-class ResultDataSource(val name: String) : PagingSource<Int, CharacterInfo>() {
+class ResultDataSource(val name: String, private val apiService: ApiService = NetModule.provideApiService(NetModule.provideRetrofit())) : PagingSource<Int, CharacterInfo>() {
 
     override fun getRefreshKey(state: PagingState<Int, CharacterInfo>): Int? {
         return state.anchorPosition
@@ -18,7 +19,7 @@ class ResultDataSource(val name: String) : PagingSource<Int, CharacterInfo>() {
             if (name.isNotEmpty()) {
                 val outName = name.replace(" ", "_")
                 val nextPage = 1
-                val characterList = NetModule.provideApiService(NetModule.provideRetrofit())
+                val characterList = apiService
                     .getSearchCharacter(outName, nextPage)
 
                 return LoadResult.Page(
@@ -29,7 +30,7 @@ class ResultDataSource(val name: String) : PagingSource<Int, CharacterInfo>() {
 
             } else {
                 val nextPage = params.key ?: 1
-                val characterList = NetModule.provideApiService(NetModule.provideRetrofit())
+                val characterList = apiService
                     .getCharacterList(nextPage)
 
                 return LoadResult.Page(
