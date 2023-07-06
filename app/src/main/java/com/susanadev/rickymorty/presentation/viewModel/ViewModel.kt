@@ -17,12 +17,14 @@ import com.susanadev.rickymorty.data.model.CharacterInfo
 import com.susanadev.rickymorty.data.utils.Resource
 import com.susanadev.rickymorty.domain.usecase.GetDetailUseCase
 import com.susanadev.rickymorty.view.pagin.ResultDataSource
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class ViewModel(
     private val app: Application,
-    private val getDetailUseCase: GetDetailUseCase
+    private val getDetailUseCase: GetDetailUseCase,
+    private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : AndroidViewModel(app) {
 
     var name = mutableStateOf("")
@@ -30,7 +32,7 @@ class ViewModel(
 
     lateinit var resultDataSource: ResultDataSource
 
-    private fun isNetworkAvailable(context: Context?): Boolean {
+    fun isNetworkAvailable(context: Context?): Boolean {
         if (context == null) return false
         val connectivityManager =
             context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
@@ -68,13 +70,12 @@ class ViewModel(
         ResultDataSource(name.value).also { resultDataSource = it }
     }.flow.cachedIn(viewModelScope)
 
-    private val _getCharacterDetail: MutableLiveData<Resource<CharacterInfo>> by lazy {
+    var _getCharacterDetail: MutableLiveData<Resource<CharacterInfo>> =
         MutableLiveData<Resource<CharacterInfo>>()
-    }
 
     val getCharacterDetail: LiveData<Resource<CharacterInfo>> get() = _getCharacterDetail
 
-    fun getCharacterDetailResponse(id: Int) = viewModelScope.launch(Dispatchers.IO) {
+    fun getCharacterDetailResponse(id: Int) = viewModelScope.launch(dispatcher) {
         _getCharacterDetail.postValue(Resource.Loading())
         try {
             if (isNetworkAvailable(app)) {

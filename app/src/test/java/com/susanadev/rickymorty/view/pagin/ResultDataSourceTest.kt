@@ -1,3 +1,5 @@
+package com.susanadev.rickymorty.view.pagin
+
 import androidx.paging.PagingSource.LoadParams
 import androidx.paging.PagingSource.LoadResult
 import com.google.gson.Gson
@@ -7,7 +9,6 @@ import com.susanadev.rickymorty.data.model.CharacterInfo
 import com.susanadev.rickymorty.data.model.Info
 import com.susanadev.rickymorty.data.model.Location
 import com.susanadev.rickymorty.data.model.Origin
-import com.susanadev.rickymorty.view.pagin.ResultDataSource
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -18,7 +19,6 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Ignore
 import org.junit.Test
-import org.mockito.Mockito.anyBoolean
 import org.mockito.Mockito.anyInt
 import org.mockito.Mockito.anyString
 import org.mockito.Mockito.mock
