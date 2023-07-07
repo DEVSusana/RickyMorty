@@ -23,14 +23,15 @@ import kotlinx.coroutines.launch
 
 class ViewModel(
     private val app: Application,
-    private val getDetailUseCase: GetDetailUseCase,
-    private val dispatcher: CoroutineDispatcher = Dispatchers.IO
+    private val getDetailUseCase: GetDetailUseCase
 ) : AndroidViewModel(app) {
 
     var name = mutableStateOf("")
         private set
 
     lateinit var resultDataSource: ResultDataSource
+
+    var dispatcher: CoroutineDispatcher = Dispatchers.IO
 
     fun isNetworkAvailable(context: Context?): Boolean {
         if (context == null) return false
@@ -70,24 +71,26 @@ class ViewModel(
         ResultDataSource(name.value).also { resultDataSource = it }
     }.flow.cachedIn(viewModelScope)
 
-    var _getCharacterDetail: MutableLiveData<Resource<CharacterInfo>> =
+    private val _getCharacterDetail: MutableLiveData<Resource<CharacterInfo>> by lazy {
         MutableLiveData<Resource<CharacterInfo>>()
+    }
 
     val getCharacterDetail: LiveData<Resource<CharacterInfo>> get() = _getCharacterDetail
 
-    fun getCharacterDetailResponse(id: Int) = viewModelScope.launch(dispatcher) {
-        _getCharacterDetail.postValue(Resource.Loading())
-        try {
-            if (isNetworkAvailable(app)) {
-                val apiResult = getDetailUseCase.execute(id)
-                _getCharacterDetail.postValue(apiResult)
-            } else {
-                _getCharacterDetail.postValue(Resource.Error("Internet is not available"))
+    fun getCharacterDetailResponse(id: Int, context: Context? = app) =
+        viewModelScope.launch(dispatcher) {
+            _getCharacterDetail.postValue(Resource.Loading())
+            try {
+                if (isNetworkAvailable(context)) {
+                    val apiResult = getDetailUseCase.execute(id)
+                    _getCharacterDetail.postValue(apiResult)
+                } else {
+                    _getCharacterDetail.postValue(Resource.Error("Internet is not available"))
+                }
+            } catch (e: Exception) {
+                _getCharacterDetail.postValue(Resource.Error(e.message.toString()))
             }
-        } catch (e: Exception) {
-            _getCharacterDetail.postValue(Resource.Error(e.message.toString()))
         }
-    }
 
 
 }

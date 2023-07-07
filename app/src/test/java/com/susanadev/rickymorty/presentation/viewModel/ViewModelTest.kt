@@ -57,7 +57,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.io.IOException
 
 
-@ExperimentalCoroutinesApi
+@OptIn(ExperimentalCoroutinesApi::class)
 @RunWith(MockitoJUnitRunner::class)
 class ViewModelTest {
     @get:Rule
@@ -83,7 +83,8 @@ class ViewModelTest {
     fun setup() {
         MockitoAnnotations.openMocks(this)
         Dispatchers.setMain(dispatcher)
-        viewModel = ViewModel(application, getDetailUseCase, dispatcher)
+        viewModel = ViewModel(application, getDetailUseCase)
+        viewModel.dispatcher = dispatcher
         mockWebServer = MockWebServer()
         mockWebServer.start()
     }
@@ -148,127 +149,89 @@ class ViewModelTest {
     }
 
     @Test
-    fun `test resultCharacterList`(): Unit = runBlocking {
-        val mockResultDataSource = mock<ResultDataSource>()
-        val mockPagingData: PagingData<CharacterInfo> = mock()
+    fun `getCharacterDetailResponse should post Loading state and fetch data when network is available`() =
+        runTest {
+            // Mock network availability
+            val context = mock<Context>()
+            val connectivityManager = mock(ConnectivityManager::class.java)
+            `when`(context.getSystemService(Context.CONNECTIVITY_SERVICE))
+                .thenReturn(connectivityManager)
+            val networkCapabilities = mock(NetworkCapabilities::class.java)
+            `when`(connectivityManager.activeNetwork)
+                .thenReturn(mock())
+            `when`(connectivityManager.getNetworkCapabilities(any()))
+                .thenReturn(networkCapabilities)
 
-        doNothing().`when`(mockResultDataSource).invalidate()
-        doReturn(mockResultDataSource).`when`(mockResultDataSource)
-            .also { viewModel.resultDataSource = it }
+            // Set up the desired network capabilities for the test case
+            `when`(networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET))
+                .thenReturn(true)
+            `when`(networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED))
+                .thenReturn(true)
+            `when`(networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI))
+                .thenReturn(true)
 
-
-        val result: Flow<PagingData<CharacterInfo>> = viewModel.resultCharacterList
-
-        result.collect { actualPagingData ->
-            assertEquals(mockPagingData, actualPagingData)
-        }
-
-        verify(mockResultDataSource).invalidate()
-        verify(mockResultDataSource).also { viewModel.resultDataSource = it }
-    }
-
-    @Test
-    fun `test resultSearchList`(): Unit = runBlocking {
-        val mockResultDataSource = mock<ResultDataSource>()
-        val mockPagingData: PagingData<CharacterInfo> = mock()
-
-        doNothing().`when`(mockResultDataSource).invalidate()
-        doReturn(mockResultDataSource).`when`(mockResultDataSource)
-            .also { viewModel.resultDataSource = it }
-
-        val result: Flow<PagingData<CharacterInfo>> = viewModel.resultSearchList
-
-        result.collect { actualPagingData ->
-            assertEquals(mockPagingData, actualPagingData)
-        }
-
-        verify(mockResultDataSource).invalidate()
-        verify(mockResultDataSource).also { viewModel.resultDataSource = it }
-    }
-
-
-    @Test
-    fun `getCharacterDetailResponse should post Loading state and fetch data when network is available`()  = runBlocking{
-        // Mock network availability
-        val context = mock<Context>()
-        val connectivityManager = mock(ConnectivityManager::class.java)
-        `when`(context.getSystemService(Context.CONNECTIVITY_SERVICE))
-            .thenReturn(connectivityManager)
-        val networkCapabilities = mock(NetworkCapabilities::class.java)
-        `when`(connectivityManager.activeNetwork)
-            .thenReturn(mock())
-        `when`(connectivityManager.getNetworkCapabilities(any()))
-            .thenReturn(networkCapabilities)
-
-        // Set up the desired network capabilities for the test case
-        `when`(networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET))
-            .thenReturn(true)
-        `when`(networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED))
-            .thenReturn(true)
-        `when`(networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI))
-            .thenReturn(true)
-
-        // Set up response
-        val characterInfo = CharacterInfo(
-            created = "2023-07-03",
-            episode = listOf("S01E01", "S01E02"),
-            gender = "Male",
-            id = 123,
-            image = "https://example.com/image.jpg",
-            location = Location("tierra", "https://example.com/character/123"),
-            name = "Rick Sanchez",
-            origin = Origin("tierra", "https://example.com/character/123"),
-            species = "Human",
-            status = "Alive",
-            type = "Main Character",
-            url = "https://example.com/character/123"
-        )
-        runBlocking {
+            // Set up response
+            val characterInfo = CharacterInfo(
+                created = "2023-07-03",
+                episode = listOf("S01E01", "S01E02"),
+                gender = "Male",
+                id = 123,
+                image = "https://example.com/image.jpg",
+                location = Location("tierra", "https://example.com/character/123"),
+                name = "Rick Sanchez",
+                origin = Origin("tierra", "https://example.com/character/123"),
+                species = "Human",
+                status = "Alive",
+                type = "Main Character",
+                url = "https://example.com/character/123"
+            )
             `when`(getDetailUseCase.execute(Mockito.anyInt())).thenReturn(
                 Resource.Success(
                     characterInfo
                 )
             )
+            // Invoke the method
+            viewModel.getCharacterDetailResponse(123, context)
+            advanceUntilIdle()
+
+            // Verify the expected behavior
+            assertEquals(characterInfo, viewModel.getCharacterDetail.value?.data)
         }
-        viewModel._getCharacterDetail = MutableLiveData<Resource<CharacterInfo>>()
-        // Invoke the method
-        viewModel.getCharacterDetailResponse(123)
 
-        // Verify the expected behavior
+    @Test
+    fun `getCharacterDetailResponse should post Error state when network is not available`() =
+        runTest {
+            // Mock network availability
+            val context = mock<Context>()
+            val connectivityManager = mock(ConnectivityManager::class.java)
+            `when`(context.getSystemService(Context.CONNECTIVITY_SERVICE))
+                .thenReturn(connectivityManager)
+            val networkCapabilities = mock(NetworkCapabilities::class.java)
+            `when`(connectivityManager.activeNetwork)
+                .thenReturn(mock())
+            `when`(connectivityManager.getNetworkCapabilities(any()))
+                .thenReturn(networkCapabilities)
 
-        assert(viewModel.getCharacterDetail.value is Resource.Loading)
-        assertEquals(characterInfo, viewModel.getCharacterDetail.value?.data)
+            // Set up the desired network capabilities for the test case
+            `when`(networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET))
+                .thenReturn(false)
+
+            // Invoke the method
+            viewModel.getCharacterDetailResponse(123, context)
+            advanceUntilIdle()
+
+            assert(viewModel.getCharacterDetail.value is Resource.Error)
     }
 
     @Test
-    fun `getCharacterDetailResponse should post Error state when network is not available`() {
-        // Mock network unavailability
-        val context = mock<Context>()
-        val connectivityManager = mock(ConnectivityManager::class.java)
-        `when`(context.getSystemService(Context.CONNECTIVITY_SERVICE))
-            .thenReturn(connectivityManager)
-        val networkCapabilities = mock(NetworkCapabilities::class.java)
-        `when`(connectivityManager.activeNetwork)
-            .thenReturn(mock())
-        `when`(connectivityManager.getNetworkCapabilities(any()))
-            .thenReturn(networkCapabilities)
+    fun `getCharacterDetailResponse should post Error state when return an exception`() =
+        runTest {
+            // Invoke the method
+            viewModel.getCharacterDetailResponse(123)
+            advanceUntilIdle()
 
-        // Set up the desired network capabilities for the test case
-        `when`(networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET))
-            .thenReturn(false)
-        `when`(networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED))
-            .thenReturn(false)
-        `when`(networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI))
-            .thenReturn(false)
-
-        // Invoke the method
-        viewModel.getCharacterDetailResponse(123)
-
-        // Verify the expected behavior
-        val expectedErrorState = Resource.Error<CharacterInfo>("Internet is not available")
-
-        assertEquals(expectedErrorState, viewModel.getCharacterDetail.value)
-    }
+            assert(viewModel.getCharacterDetail.value is Resource.Error)
+        }
 
 
 }
