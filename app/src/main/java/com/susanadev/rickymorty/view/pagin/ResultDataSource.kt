@@ -8,7 +8,10 @@ import com.susanadev.rickymorty.presentation.di.NetModule
 import retrofit2.HttpException
 import java.io.IOException
 
-class ResultDataSource(val name: String, private val apiService: ApiService = NetModule.provideApiService(NetModule.provideRetrofit())) : PagingSource<Int, CharacterInfo>() {
+class ResultDataSource(
+    val name: String,
+    private val apiService: ApiService = NetModule.provideApiService(NetModule.provideRetrofit())
+) : PagingSource<Int, CharacterInfo>() {
 
     override fun getRefreshKey(state: PagingState<Int, CharacterInfo>): Int? {
         return state.anchorPosition

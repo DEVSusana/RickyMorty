@@ -16,6 +16,7 @@ import okhttp3.ResponseBody.Companion.toResponseBody
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.After
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Ignore
 import org.junit.Test
@@ -47,20 +48,24 @@ class ResultDataSourceTest {
     @Test
     fun `load - with name, returns character list`() = runBlocking {
         // Mock API response
-        val responseBody = ApiResponse(info = Info(0,"",0, 0), results = listOf(CharacterInfo(
-            created = "2023-07-03",
-            episode = listOf("S01E01", "S01E02"),
-            gender = "Male",
-            id = 123,
-            image = "https://example.com/image.jpg",
-            location = Location("tierra", "https://example.com/character/123"),
-            name = "Rick Sanchez",
-            origin = Origin("tierra", "https://example.com/character/123"),
-            species = "Human",
-            status = "Alive",
-            type = "Main Character",
-            url = "https://example.com/character/123"
-        )))
+        val responseBody = ApiResponse(
+            info = Info(0, "", 0, 0), results = listOf(
+                CharacterInfo(
+                    created = "2023-07-03",
+                    episode = listOf("S01E01", "S01E02"),
+                    gender = "Male",
+                    id = 123,
+                    image = "https://example.com/image.jpg",
+                    location = Location("tierra", "https://example.com/character/123"),
+                    name = "Rick Sanchez",
+                    origin = Origin("tierra", "https://example.com/character/123"),
+                    species = "Human",
+                    status = "Alive",
+                    type = "Main Character",
+                    url = "https://example.com/character/123"
+                )
+            )
+        )
         val response = Response.success(responseBody)
         val apiService = mock(ApiService::class.java)
         `when`(apiService.getSearchCharacter(anyString(), anyInt())).thenReturn(response)
@@ -85,20 +90,24 @@ class ResultDataSourceTest {
     @Test
     fun `load - without name, returns character list`() = runBlocking {
         // Mock API response
-        val responseBody = ApiResponse(info = Info(0,"",0, 0), results = listOf(CharacterInfo(
-            created = "2023-07-03",
-            episode = listOf("S01E01", "S01E02"),
-            gender = "Male",
-            id = 123,
-            image = "https://example.com/image.jpg",
-            location = Location("tierra", "https://example.com/character/123"),
-            name = "Rick Sanchez",
-            origin = Origin("tierra", "https://example.com/character/123"),
-            species = "Human",
-            status = "Alive",
-            type = "Main Character",
-            url = "https://example.com/character/123"
-        )))
+        val responseBody = ApiResponse(
+            info = Info(0, "", 0, 0), results = listOf(
+                CharacterInfo(
+                    created = "2023-07-03",
+                    episode = listOf("S01E01", "S01E02"),
+                    gender = "Male",
+                    id = 123,
+                    image = "https://example.com/image.jpg",
+                    location = Location("tierra", "https://example.com/character/123"),
+                    name = "Rick Sanchez",
+                    origin = Origin("tierra", "https://example.com/character/123"),
+                    species = "Human",
+                    status = "Alive",
+                    type = "Main Character",
+                    url = "https://example.com/character/123"
+                )
+            )
+        )
         val response = Response.success(responseBody)
         val apiService = mock(ApiService::class.java)
         `when`(apiService.getCharacterList(anyInt())).thenReturn(response)
@@ -128,7 +137,12 @@ class ResultDataSourceTest {
         val errorResponseBody = errorMessage.toResponseBody("text/plain".toMediaTypeOrNull())
 
         val apiService = mock(ApiService::class.java)
-        `when`(apiService.getCharacterList(anyInt())).thenReturn( Response.error(500, errorResponseBody))
+        `when`(apiService.getCharacterList(anyInt())).thenReturn(
+            Response.error(
+                500,
+                errorResponseBody
+            )
+        )
 
         // Create the data source
         val dataSource = ResultDataSource("", apiService)
@@ -138,9 +152,10 @@ class ResultDataSourceTest {
 
         // Call the load function
         val result = dataSource.load(loadParams)
+        val expectedResult = LoadResult.Error<Int, CharacterInfo>(IOException())
 
         // Verify the expected result
-        assert(result is LoadResult.Error)
+        assertEquals(result.toString(), expectedResult.toString())
         val errorResult = result as LoadResult.Error
         assert(errorResult.throwable is IOException)
     }
