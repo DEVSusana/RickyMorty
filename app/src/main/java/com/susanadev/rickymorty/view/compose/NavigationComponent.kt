@@ -51,6 +51,7 @@ fun NavigationComponent(
             backStackEntry.arguments?.getInt("id")?.let {
                 DetailView(viewModel, it)
             }
+            viewModel.invalidateResultDataSource()
         }
     }
 
