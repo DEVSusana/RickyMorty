@@ -17,6 +17,7 @@ import com.susanadev.rickymorty.data.model.CharacterInfo
 import com.susanadev.rickymorty.data.utils.Resource
 import com.susanadev.rickymorty.domain.usecase.GetDetailUseCase
 import com.susanadev.rickymorty.view.pagin.ResultDataSource
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -30,7 +31,9 @@ class ViewModel(
 
     lateinit var resultDataSource: ResultDataSource
 
-    private fun isNetworkAvailable(context: Context?): Boolean {
+    var dispatcher: CoroutineDispatcher = Dispatchers.IO
+
+    fun isNetworkAvailable(context: Context?): Boolean {
         if (context == null) return false
         val connectivityManager =
             context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
@@ -74,19 +77,20 @@ class ViewModel(
 
     val getCharacterDetail: LiveData<Resource<CharacterInfo>> get() = _getCharacterDetail
 
-    fun getCharacterDetailResponse(id: Int) = viewModelScope.launch(Dispatchers.IO) {
-        _getCharacterDetail.postValue(Resource.Loading())
-        try {
-            if (isNetworkAvailable(app)) {
-                val apiResult = getDetailUseCase.execute(id)
-                _getCharacterDetail.postValue(apiResult)
-            } else {
-                _getCharacterDetail.postValue(Resource.Error("Internet is not available"))
+    fun getCharacterDetailResponse(id: Int, context: Context? = app) =
+        viewModelScope.launch(dispatcher) {
+            _getCharacterDetail.postValue(Resource.Loading())
+            try {
+                if (isNetworkAvailable(context)) {
+                    val apiResult = getDetailUseCase.execute(id)
+                    _getCharacterDetail.postValue(apiResult)
+                } else {
+                    _getCharacterDetail.postValue(Resource.Error("Internet is not available"))
+                }
+            } catch (e: Exception) {
+                _getCharacterDetail.postValue(Resource.Error(e.message.toString()))
             }
-        } catch (e: Exception) {
-            _getCharacterDetail.postValue(Resource.Error(e.message.toString()))
         }
-    }
 
 
 }
