@@ -11,27 +11,29 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import androidx.paging.LoadState
+import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import coil.annotation.ExperimentalCoilApi
 import com.susanadev.rickymorty.data.model.CharacterInfo
+import com.susanadev.rickymorty.data.model.Location
+import com.susanadev.rickymorty.data.model.Origin
 import com.susanadev.rickymorty.presentation.viewModel.ViewModel
+import kotlinx.coroutines.flow.flowOf
 
 @ExperimentalCoilApi
 @Composable
 fun DisplayList(
-    navController: NavController, viewModel: ViewModel,
-    state: MutableState<TextFieldValue>, modifier: Modifier = Modifier
+    navController: NavController,
+    resultItems: LazyPagingItems<CharacterInfo>,
+    modifier: Modifier = Modifier
 ) {
     val selectedIndex by remember { mutableIntStateOf(-1) }
-    val resultItems: LazyPagingItems<CharacterInfo> = if (state.value.text.isNotEmpty()) {
-        viewModel.resultSearchList.collectAsLazyPagingItems()
-    } else {
-        viewModel.resultCharacterList.collectAsLazyPagingItems()
-    }
 
     Surface(color = Color.LightGray) {
         LazyColumn(
@@ -67,4 +69,25 @@ fun DisplayList(
     }
 
 
+}
+
+@OptIn(ExperimentalCoilApi::class)
+@Preview(showBackground = true)
+@Composable
+fun DisplayListPreview() {
+    val characterInfo = CharacterInfo(
+        created = "2023-07-03",
+        episode = listOf("S01E01", "S01E02"),
+        gender = "Male",
+        id = 123,
+        image = "https://rickandmortyapi.com/api/character/avatar/79.jpeg",
+        location = Location("tierra", "https://example.com/character/123"),
+        name = "Rick Sanchez",
+        origin = Origin("tierra", "https://example.com/character/123"),
+        species = "Human",
+        status = "Alive",
+        type = "Main Character",
+        url = "https://example.com/character/123"
+    )
+    DisplayList(navController = rememberNavController(), resultItems = flowOf(PagingData.from(listOf(characterInfo))).collectAsLazyPagingItems())
 }

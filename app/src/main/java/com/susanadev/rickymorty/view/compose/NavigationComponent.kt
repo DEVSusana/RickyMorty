@@ -20,6 +20,8 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
 import coil.annotation.ExperimentalCoilApi
 import com.susanadev.rickymorty.data.model.CharacterInfo
 import com.susanadev.rickymorty.data.utils.Resource
@@ -44,10 +46,14 @@ fun NavigationComponent(
                     SearchView(textState, viewModel)
                 }
             }) { padding ->
+                val resultItems: LazyPagingItems<CharacterInfo> = if (textState.value.text.isNotEmpty()) {
+                    viewModel.resultSearchList.collectAsLazyPagingItems()
+                } else {
+                    viewModel.resultCharacterList.collectAsLazyPagingItems()
+                }
                 DisplayList(
                     navController = navController,
-                    viewModel,
-                    state = textState,
+                    resultItems,
                     modifier = Modifier.padding(padding)
                 )
             }

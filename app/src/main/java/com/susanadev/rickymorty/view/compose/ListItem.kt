@@ -19,11 +19,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import coil.annotation.ExperimentalCoilApi
 import com.susanadev.rickymorty.R
 import com.susanadev.rickymorty.data.model.CharacterInfo
+import com.susanadev.rickymorty.data.model.Location
+import com.susanadev.rickymorty.data.model.Origin
 
 @OptIn(ExperimentalCoilApi::class)
 @Composable
@@ -64,4 +68,24 @@ fun ListItem(
             }
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun ListItemPreview() {
+    val characterInfo = CharacterInfo(
+        created = "2023-07-03",
+        episode = listOf("S01E01", "S01E02"),
+        gender = "Male",
+        id = 123,
+        image = "https://rickandmortyapi.com/api/character/avatar/79.jpeg",
+        location = Location("tierra", "https://example.com/character/123"),
+        name = "Rick Sanchez",
+        origin = Origin("tierra", "https://example.com/character/123"),
+        species = "Human",
+        status = "Alive",
+        type = "Main Character",
+        url = "https://example.com/character/123"
+    )
+    ListItem(navController = rememberNavController(), detail = characterInfo, index = 1, selectedIndex = 1)
 }
