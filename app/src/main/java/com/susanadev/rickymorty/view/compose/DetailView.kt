@@ -133,7 +133,7 @@ fun DetailView(detail: CharacterInfo) {
 }
 
 @OptIn(ExperimentalCoilApi::class)
-@Preview(showBackground = true)
+@Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun DetailViewPreview() {
     val characterInfo = CharacterInfo(

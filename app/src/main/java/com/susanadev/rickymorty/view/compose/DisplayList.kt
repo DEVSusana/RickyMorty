@@ -72,7 +72,7 @@ fun DisplayList(
 }
 
 @OptIn(ExperimentalCoilApi::class)
-@Preview(showBackground = true)
+@Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun DisplayListPreview() {
     val characterInfo = CharacterInfo(
@@ -89,5 +89,8 @@ fun DisplayListPreview() {
         type = "Main Character",
         url = "https://example.com/character/123"
     )
-    DisplayList(navController = rememberNavController(), resultItems = flowOf(PagingData.from(listOf(characterInfo))).collectAsLazyPagingItems())
+    DisplayList(
+        navController = rememberNavController(),
+        resultItems = flowOf(PagingData.from(listOf(characterInfo))).collectAsLazyPagingItems()
+    )
 }

@@ -70,7 +70,7 @@ fun ListItem(
     }
 }
 
-@Preview(showBackground = true)
+@Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun ListItemPreview() {
     val characterInfo = CharacterInfo(
@@ -87,5 +87,10 @@ fun ListItemPreview() {
         type = "Main Character",
         url = "https://example.com/character/123"
     )
-    ListItem(navController = rememberNavController(), detail = characterInfo, index = 1, selectedIndex = 1)
+    ListItem(
+        navController = rememberNavController(),
+        detail = characterInfo,
+        index = 1,
+        selectedIndex = 1
+    )
 }
