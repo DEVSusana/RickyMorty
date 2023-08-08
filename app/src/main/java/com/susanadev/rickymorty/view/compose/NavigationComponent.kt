@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -35,7 +36,7 @@ fun NavigationComponent(
 ) {
     NavHost(
         navController = navController,
-        startDestination = "list"
+        startDestination = "list",
     ) {
         composable("list") {
             val textState = remember { mutableStateOf(TextFieldValue("")) }
@@ -46,11 +47,12 @@ fun NavigationComponent(
                     SearchView(textState, viewModel)
                 }
             }) { padding ->
-                val resultItems: LazyPagingItems<CharacterInfo> = if (textState.value.text.isNotEmpty()) {
-                    viewModel.resultSearchList.collectAsLazyPagingItems()
-                } else {
-                    viewModel.resultCharacterList.collectAsLazyPagingItems()
-                }
+                val resultItems: LazyPagingItems<CharacterInfo> =
+                    if (textState.value.text.isNotEmpty()) {
+                        viewModel.resultSearchList.collectAsLazyPagingItems()
+                    } else {
+                        viewModel.resultCharacterList.collectAsLazyPagingItems()
+                    }
                 DisplayList(
                     navController = navController,
                     resultItems,
@@ -66,7 +68,6 @@ fun NavigationComponent(
                 LaunchedEffect(it) {
                     viewModel.getCharacterDetailResponse(it)
                 }
-
             }
             val detail by viewModel.getCharacterDetail.observeAsState()
             when (detail) {
@@ -99,8 +100,11 @@ fun NavigationComponent(
                 else -> {
                 }
             }
-
-            viewModel.invalidateResultDataSource()
+            DisposableEffect(Unit) {
+                onDispose {
+                    viewModel.invalidateResultDataSource()
+                }
+            }
         }
     }
 

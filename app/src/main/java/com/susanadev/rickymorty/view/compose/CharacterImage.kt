@@ -20,18 +20,14 @@ import com.susanadev.rickymorty.data.model.Origin
 
 @ExperimentalCoilApi
 @Composable
-fun CharacterImage(detail: CharacterInfo) {
+fun CharacterImage(detail: CharacterInfo, modifier: Modifier = Modifier) {
     Image(
         painter = rememberAsyncImagePainter(
             detail.image
         ),
         contentDescription = null,
         contentScale = ContentScale.Crop,
-        modifier = Modifier
-            .padding(4.dp)
-            .height(140.dp)
-            .width(140.dp)
-            .clip(RoundedCornerShape(corner = CornerSize(10.dp)))
+        modifier = modifier
     )
 
 }
@@ -55,5 +51,10 @@ fun CharacterImagePreview(){
         url = "https://example.com/character/123"
     )
 
-    CharacterImage(detail = characterInfo)
+    CharacterImage(
+        detail = characterInfo, modifier = Modifier
+        .padding(4.dp)
+        .height(140.dp)
+        .width(140.dp)
+        .clip(RoundedCornerShape(corner = CornerSize(10.dp))))
 }

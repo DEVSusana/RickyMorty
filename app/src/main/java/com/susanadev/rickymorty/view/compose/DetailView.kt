@@ -65,26 +65,19 @@ fun DetailView(detail: CharacterInfo) {
 
                     ConstraintLayout() {
                         val imageConstraint = createRef()
-                        Image(
-                            painter = rememberAsyncImagePainter(
-                                detail.image
-                            ),
-                            contentDescription = null,
-                            contentScale = ContentScale.Crop,
-                            modifier = Modifier
-                                .clip(
-                                    RoundedCornerShape(
-                                        topStart = 10.dp,
-                                        topEnd = 10.dp
-                                    )
+                        CharacterImage(detail = detail, modifier = Modifier
+                            .clip(
+                                RoundedCornerShape(
+                                    topStart = 10.dp,
+                                    topEnd = 10.dp
                                 )
-                                .height(440.dp)
-                                .constrainAs(imageConstraint) {
-                                    top.linkTo(parent.top)
-                                    start.linkTo(parent.start)
-                                    end.linkTo(parent.end)
-                                }
-                        )
+                            )
+                            .height(440.dp)
+                            .constrainAs(imageConstraint) {
+                                top.linkTo(parent.top)
+                                start.linkTo(parent.start)
+                                end.linkTo(parent.end)
+                            })
                     }
 
                     Text(

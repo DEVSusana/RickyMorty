@@ -67,8 +67,6 @@ fun DisplayList(
             }
         }
     }
-
-
 }
 
 @OptIn(ExperimentalCoilApi::class)
