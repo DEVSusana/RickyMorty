@@ -52,7 +52,7 @@ fun ListItem(
                     .clickable { navController.navigate("details/${detail.id}") },
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                CharacterImage(detail = detail, modifier = Modifier
+                CharacterImage(imageUrl = detail.image, modifier = Modifier
                     .padding(4.dp)
                     .height(140.dp)
                     .width(140.dp)

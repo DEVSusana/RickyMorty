@@ -20,10 +20,10 @@ import com.susanadev.rickymorty.data.model.Origin
 
 @ExperimentalCoilApi
 @Composable
-fun CharacterImage(detail: CharacterInfo, modifier: Modifier = Modifier) {
+fun CharacterImage(imageUrl: String, modifier: Modifier = Modifier) {
     Image(
         painter = rememberAsyncImagePainter(
-            detail.image
+            imageUrl
         ),
         contentDescription = null,
         contentScale = ContentScale.Crop,
@@ -52,7 +52,7 @@ fun CharacterImagePreview(){
     )
 
     CharacterImage(
-        detail = characterInfo, modifier = Modifier
+        imageUrl = characterInfo.image, modifier = Modifier
         .padding(4.dp)
         .height(140.dp)
         .width(140.dp)

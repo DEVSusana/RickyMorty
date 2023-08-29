@@ -65,7 +65,7 @@ fun DetailView(detail: CharacterInfo) {
 
                     ConstraintLayout() {
                         val imageConstraint = createRef()
-                        CharacterImage(detail = detail, modifier = Modifier
+                        CharacterImage(imageUrl = detail.image, modifier = Modifier
                             .clip(
                                 RoundedCornerShape(
                                     topStart = 10.dp,
