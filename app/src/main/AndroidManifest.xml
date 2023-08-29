@@ -14,12 +14,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:name=".presentation.App"
         android:supportsRtl="true"
+        android:usesCleartextTraffic="true"
         android:theme="@style/Theme.RickyMorty"
         tools:targetApi="31">
         <activity
             android:name="com.susanadev.rickymorty.view.MainActivity"
             android:exported="true"
-            android:label="@string/app_name"
             android:theme="@style/Theme.RickyMorty">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
