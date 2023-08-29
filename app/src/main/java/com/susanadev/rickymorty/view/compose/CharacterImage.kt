@@ -33,7 +33,7 @@ fun CharacterImage(detail: CharacterInfo, modifier: Modifier = Modifier) {
 }
 
 @OptIn(ExperimentalCoilApi::class)
-@Preview(showBackground = true, showSystemUi = true)
+@Preview(showBackground = true)
 @Composable
 fun CharacterImagePreview(){
     val characterInfo = CharacterInfo(

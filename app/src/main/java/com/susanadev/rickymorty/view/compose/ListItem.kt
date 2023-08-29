@@ -35,12 +35,8 @@ import com.susanadev.rickymorty.data.model.Origin
 @Composable
 fun ListItem(
     navController: NavController,
-    detail: CharacterInfo,
-    index: Int,
-    selectedIndex: Int
+    detail: CharacterInfo
 ) {
-    val backgroundColor =
-        if (index == selectedIndex) colorResource(R.color.lightRedGray) else colorResource(R.color.lightBlueGray)
     Card(
         modifier = Modifier
             .padding(10.dp)
@@ -48,7 +44,7 @@ fun ListItem(
         elevation = 10.dp,
         shape = RoundedCornerShape(corner = CornerSize(10.dp))
     ) {
-        Surface(color = backgroundColor) {
+        Surface(color = colorResource(R.color.lightBlueGray)) {
             Row(
                 modifier = Modifier
                     .padding(5.dp)
@@ -76,7 +72,7 @@ fun ListItem(
     }
 }
 
-@Preview(showBackground = true, showSystemUi = true)
+@Preview(showBackground = true)
 @Composable
 fun ListItemPreview() {
     val characterInfo = CharacterInfo(
@@ -95,8 +91,6 @@ fun ListItemPreview() {
     )
     ListItem(
         navController = rememberNavController(),
-        detail = characterInfo,
-        index = 1,
-        selectedIndex = 1
+        detail = characterInfo
     )
 }

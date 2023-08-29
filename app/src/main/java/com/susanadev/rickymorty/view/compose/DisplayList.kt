@@ -33,8 +33,6 @@ fun DisplayList(
     resultItems: LazyPagingItems<CharacterInfo>,
     modifier: Modifier = Modifier
 ) {
-    val selectedIndex by remember { mutableIntStateOf(-1) }
-
     Surface(color = Color.LightGray) {
         LazyColumn(
             modifier = modifier,
@@ -45,7 +43,7 @@ fun DisplayList(
             ) { index ->
                 val item = resultItems[index]
                 if (item != null) {
-                    ListItem(navController = navController, detail = item, index, selectedIndex)
+                    ListItem(navController = navController, detail = item)
                 }
             }
         }
