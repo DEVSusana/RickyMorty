@@ -122,7 +122,6 @@ fun DetailView(detail: CharacterInfo) {
             }
         }
     }
-
 }
 
 @OptIn(ExperimentalCoilApi::class)
