@@ -67,6 +67,10 @@ fun NavigationComponent(
                 LaunchedEffect(it) {
                     viewModel.getCharacterDetailResponse(it)
                 }
+                val textState = remember { mutableStateOf(TextFieldValue("")) }
+                if (textState.value.text.isNotEmpty()) {
+                    viewModel.invalidateResultDataSource()
+                }
             }
             val detail by viewModel.getCharacterDetail.observeAsState()
             when (detail) {

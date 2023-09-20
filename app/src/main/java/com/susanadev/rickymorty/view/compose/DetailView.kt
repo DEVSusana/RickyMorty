@@ -1,8 +1,5 @@
 package com.susanadev.rickymorty.view.compose
 
-import android.util.Log
-import android.widget.Toast
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -20,17 +17,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import coil.annotation.ExperimentalCoilApi
-import coil.compose.rememberAsyncImagePainter
 import com.susanadev.rickymorty.data.model.CharacterInfo
 import com.susanadev.rickymorty.data.model.Location
 import com.susanadev.rickymorty.data.model.Origin
-import com.susanadev.rickymorty.data.utils.Resource
 
 @ExperimentalCoilApi
 @Composable
