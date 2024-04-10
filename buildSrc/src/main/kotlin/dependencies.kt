@@ -135,6 +135,11 @@ object Libs {
         const val inline = "org.mockito:mockito-inline:5.2.0"
     }
 
+    object Espresso{
+        private const val version="3.5.1"
+        const val contrib = "androidx.test.espresso:espresso-contrib:$version"
+    }
+
     object Hilt {
         private const val version = "2.43.2"
         const val android = "com.google.dagger:hilt-android:$version"

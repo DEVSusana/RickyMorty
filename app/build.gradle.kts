@@ -90,6 +90,7 @@ dependencies {
     testImplementation(Libs.Mockito.kotlin)
     testImplementation(Libs.Mockito.inline)
     testImplementation(Libs.Arch.coreTesting)
+    testImplementation(project(":app"))
 
     androidTestImplementation(Libs.AndroidX.Test.runner)
     androidTestImplementation(Libs.AndroidX.Test.rules)
@@ -97,6 +98,7 @@ dependencies {
     androidTestImplementation(Libs.AndroidX.Test.Espresso.contrib)
     androidTestImplementation(Libs.AndroidX.Compose.Ui.uiTestJunit)
     androidTestImplementation(Libs.Hilt.test)
+    androidTestImplementation(Libs.Espresso.contrib)
     implementation(Libs.OkHttp3.mockWebServer)
 
     debugImplementation(Libs.AndroidX.Compose.Ui.uiTestManifest)

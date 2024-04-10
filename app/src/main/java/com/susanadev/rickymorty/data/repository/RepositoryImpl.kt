@@ -1,13 +1,11 @@
 package com.susanadev.rickymorty.data.repository
 
 import androidx.paging.Pager
-import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.susanadev.rickymorty.data.model.CharacterInfo
 import com.susanadev.rickymorty.data.repository.dataSource.RemoteDataSource
 import com.susanadev.rickymorty.data.utils.Resource
 import com.susanadev.rickymorty.domain.repository.Repository
-import com.susanadev.rickymorty.view.pagin.ResultDataSource
 import kotlinx.coroutines.flow.Flow
 import retrofit2.Response
 import javax.inject.Inject

@@ -1,11 +1,13 @@
-package com.susanadev.rickymorty.presentation.di
+package com.susanadev.rickymorty.di
 
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.susanadev.rickymorty.data.api.ApiService
+import com.susanadev.rickymorty.presentation.di.ApiUrl
+import com.susanadev.rickymorty.presentation.di.NetModule
 import dagger.Module
 import dagger.Provides
-import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import dagger.hilt.testing.TestInstallIn
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -14,8 +16,11 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 @Module
-@InstallIn(SingletonComponent::class)
-object NetModule {
+@TestInstallIn(
+    components = [SingletonComponent::class],
+    replaces = [NetModule::class]
+)
+object TestNetModule {
     private val interceptor: HttpLoggingInterceptor = HttpLoggingInterceptor().apply {
         level = HttpLoggingInterceptor.Level.BODY
     }
@@ -29,7 +34,7 @@ object NetModule {
     @Provides
     @Singleton
     @ApiUrl
-    fun provideApiUrl(): String = "https://rickandmortyapi.com/api/"
+    fun provideApiUrl(): String = "https://localhost:8080"
 
     @Provides
     @Singleton
@@ -51,5 +56,4 @@ object NetModule {
     fun provideApiService(retrofit: Retrofit): ApiService {
         return retrofit.create(ApiService::class.java)
     }
-
 }

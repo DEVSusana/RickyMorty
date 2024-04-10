@@ -5,35 +5,23 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
-import androidx.paging.PagingData
-import com.google.gson.Gson
 import com.susanadev.rickymorty.data.api.ApiService
 import com.susanadev.rickymorty.data.model.CharacterInfo
 import com.susanadev.rickymorty.data.model.Location
 import com.susanadev.rickymorty.data.model.Origin
-import com.susanadev.rickymorty.data.repository.dataSource.RemoteDataSource
-import com.susanadev.rickymorty.data.repository.dataSourceImpl.RemoteDataSourceImpl
 import com.susanadev.rickymorty.data.utils.Resource
-import com.susanadev.rickymorty.domain.repository.Repository
 import com.susanadev.rickymorty.domain.usecase.GetDetailUseCase
+import com.susanadev.rickymorty.domain.usecase.GetFilteredListOfCharactersUseCase
+import com.susanadev.rickymorty.domain.usecase.GetListOfCharactersUseCase
 import com.susanadev.rickymorty.view.pagin.ResultDataSource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.test.StandardTestDispatcher
-import kotlinx.coroutines.test.TestCoroutineDispatcher
-import kotlinx.coroutines.test.TestCoroutineScope
 import kotlinx.coroutines.test.TestDispatcher
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
-import okhttp3.mockwebserver.MockResponse
-import okhttp3.mockwebserver.MockWebServer
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
@@ -44,22 +32,17 @@ import org.junit.runner.RunWith
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mock
 import org.mockito.Mockito
-import org.mockito.Mockito.doNothing
-import org.mockito.Mockito.doReturn
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.verify
 import org.mockito.Mockito.`when`
 import org.mockito.MockitoAnnotations
 import org.mockito.junit.MockitoJUnitRunner
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import java.io.IOException
 
 
 @OptIn(ExperimentalCoroutinesApi::class)
 @RunWith(MockitoJUnitRunner::class)
 class ViewModelTest {
+
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
 
@@ -69,13 +52,20 @@ class ViewModelTest {
     @Mock
     private lateinit var getDetailUseCase: GetDetailUseCase
 
+    @Mock
+    private lateinit var getListOfCharactersUseCase: GetListOfCharactersUseCase
+
+    @Mock
+    private lateinit var getFilteredListOfCharactersUseCase: GetFilteredListOfCharactersUseCase
+
+    @Mock
+    private lateinit var apiService: ApiService
+
     @ExperimentalCoroutinesApi
     @get:Rule
     var mainCoroutineRule = MainCoroutineRule()
 
     private lateinit var viewModel: ViewModel
-
-    private lateinit var mockWebServer: MockWebServer
 
     private val dispatcher: TestDispatcher = UnconfinedTestDispatcher()
 
@@ -83,15 +73,13 @@ class ViewModelTest {
     fun setup() {
         MockitoAnnotations.openMocks(this)
         Dispatchers.setMain(dispatcher)
-        viewModel = ViewModel(application, getDetailUseCase)
+        viewModel = ViewModel(application, getDetailUseCase,
+            getListOfCharactersUseCase, getFilteredListOfCharactersUseCase, apiService)
         viewModel.dispatcher = dispatcher
-        mockWebServer = MockWebServer()
-        mockWebServer.start()
     }
 
     @After
     fun teardown() {
-        mockWebServer.shutdown()
         Dispatchers.resetMain()
     }
 

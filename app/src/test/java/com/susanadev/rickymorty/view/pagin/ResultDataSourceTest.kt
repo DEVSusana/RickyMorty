@@ -13,8 +13,6 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.ResponseBody.Companion.toResponseBody
-import okhttp3.mockwebserver.MockResponse
-import okhttp3.mockwebserver.MockWebServer
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -24,24 +22,22 @@ import org.mockito.Mockito.anyInt
 import org.mockito.Mockito.anyString
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.`when`
-import retrofit2.HttpException
 import retrofit2.Response
 import java.io.IOException
 
 @ExperimentalCoroutinesApi
 class ResultDataSourceTest {
-    private lateinit var mockWebServer: MockWebServer
-
+//    private lateinit var mockWebServer: MockWebServer
 
     @Before
     fun setup() {
-        mockWebServer = MockWebServer()
-        mockWebServer.start()
+//        mockWebServer = MockWebServer()
+//        mockWebServer.start()
     }
 
     @After
     fun tearDown() {
-        mockWebServer.shutdown()
+//        mockWebServer.shutdown()
     }
 
 
@@ -71,7 +67,7 @@ class ResultDataSourceTest {
         `when`(apiService.getSearchCharacter(anyString(), anyInt())).thenReturn(response)
 
         // Create the data source
-        val dataSource = ResultDataSource("Rick", apiService)
+        val dataSource = ResultDataSource(apiService, "Rick")
 
         // Create load parameters
         val loadParams = LoadParams.Refresh(0, 1, false)
@@ -113,7 +109,7 @@ class ResultDataSourceTest {
         `when`(apiService.getCharacterList(anyInt())).thenReturn(response)
 
         // Create the data source
-        val dataSource = ResultDataSource("", apiService)
+        val dataSource = ResultDataSource(apiService, "")
 
         // Create load parameters
         val loadParams = LoadParams.Refresh(1, 1, false)
@@ -145,7 +141,7 @@ class ResultDataSourceTest {
         )
 
         // Create the data source
-        val dataSource = ResultDataSource("", apiService)
+        val dataSource = ResultDataSource(apiService, "")
 
         // Create load parameters
         val loadParams = LoadParams.Refresh(1, 1, false)
@@ -163,22 +159,23 @@ class ResultDataSourceTest {
     @Ignore("problems to mock exception")
     @Test
     fun `load - HTTP exception occurs, returns LoadResult Error`() = runBlocking {
-        // Mock API response
-        mockWebServer.enqueue(MockResponse().setResponseCode(404))
-
-        // Create the data source
-        val dataSource = ResultDataSource("")
-
-        // Create load parameters
-        val loadParams = LoadParams.Refresh(0, 1, false)
-
-        // Call the load function
-        val result = dataSource.load(loadParams)
-
-        // Verify the expected result
-        assert(result is LoadResult.Error)
-        val errorResult = result as LoadResult.Error
-        assert(errorResult.throwable is HttpException)
+//        // Mock API response
+//        mockWebServer.enqueue(MockResponse().setResponseCode(404))
+//
+//        val apiService = mock(ApiService::class.java)
+//        // Create the data source
+//        val dataSource = ResultDataSource(apiService, "")
+//
+//        // Create load parameters
+//        val loadParams = LoadParams.Refresh(0, 1, false)
+//
+//        // Call the load function
+//        val result = dataSource.load(loadParams)
+//
+//        // Verify the expected result
+//        assert(result is LoadResult.Error)
+//        val errorResult = result as LoadResult.Error
+//        assert(errorResult.throwable is HttpException)
     }
 
 
