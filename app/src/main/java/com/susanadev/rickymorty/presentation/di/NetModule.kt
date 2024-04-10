@@ -1,7 +1,6 @@
 package com.susanadev.rickymorty.presentation.di
 
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
-import com.susanadev.rickymorty.BuildConfig
 import com.susanadev.rickymorty.data.api.ApiService
 import dagger.Module
 import dagger.Provides
@@ -11,6 +10,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.create
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
@@ -29,18 +29,19 @@ object NetModule {
 
     @Provides
     @Singleton
-    fun provideRetrofit(): Retrofit {
+    @ApiUrl
+    fun provideApiUrl(): String = "https://rickandmortyapi.com/api/"
+
+    @Provides
+    @Singleton
+    fun provideApiService(@ApiUrl apiUrl: String): ApiService {
         return Retrofit.Builder()
             .client(apiClient)
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(CoroutineCallAdapterFactory())
-            .baseUrl(BuildConfig.URL_BASE)
+            .baseUrl(apiUrl)
             .build()
+            .create()
     }
 
-    @Provides
-    @Singleton
-    fun provideApiService(retrofit: Retrofit): ApiService {
-        return retrofit.create(ApiService::class.java)
-    }
 }

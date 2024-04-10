@@ -11,18 +11,28 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import com.susanadev.rickymorty.data.api.ApiService
 import com.susanadev.rickymorty.data.model.CharacterInfo
 import com.susanadev.rickymorty.data.utils.Resource
 import com.susanadev.rickymorty.domain.usecase.GetDetailUseCase
+import com.susanadev.rickymorty.domain.usecase.GetFilteredListOfCharactersUseCase
+import com.susanadev.rickymorty.domain.usecase.GetListOfCharactersUseCase
 import com.susanadev.rickymorty.view.pagin.ResultDataSource
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emitAll
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 
 class ViewModel(
     private val app: Application,
-    private val getDetailUseCase: GetDetailUseCase
+    private val getDetailUseCase: GetDetailUseCase,
+    private val getListOfCharactersUseCase: GetListOfCharactersUseCase,
+    private val getFilteredListOfCharactersUseCase: GetFilteredListOfCharactersUseCase,
+    private val apiService: ApiService
 ) : AndroidViewModel(app) {
 
     var name = mutableStateOf("")
@@ -62,13 +72,23 @@ class ViewModel(
         this.name.value = name
     }
 
-    val resultCharacterList = Pager(PagingConfig(pageSize = 50)) {
-        ResultDataSource("").also { resultDataSource = it }
-    }.flow.cachedIn(viewModelScope)
+    val resultCharacterList: Flow<PagingData<CharacterInfo>> = flow {
+        val charactersList = getListOfCharactersUseCase.execute(
+            Pager(PagingConfig(pageSize = 50)) {
+                ResultDataSource(apiService, "").also { resultDataSource = it }
+            }
+        )
+        emitAll(charactersList)
+    }.cachedIn(viewModelScope)
 
-    val resultSearchList = Pager(PagingConfig(pageSize = 50)) {
-        ResultDataSource(name.value).also { resultDataSource = it }
-    }.flow.cachedIn(viewModelScope)
+    val resultSearchList: Flow<PagingData<CharacterInfo>> = flow {
+        val filteredCharacters = getFilteredListOfCharactersUseCase.execute(
+            Pager(PagingConfig(pageSize = 50)) {
+                ResultDataSource(apiService, name.value).also { resultDataSource = it }
+            }
+        )
+        emitAll(filteredCharacters)
+    }.cachedIn(viewModelScope)
 
     private val _getCharacterDetail: MutableLiveData<Resource<CharacterInfo>> by lazy {
         MutableLiveData<Resource<CharacterInfo>>()

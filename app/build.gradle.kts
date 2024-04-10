@@ -97,7 +97,7 @@ dependencies {
     androidTestImplementation(Libs.AndroidX.Test.Espresso.contrib)
     androidTestImplementation(Libs.AndroidX.Compose.Ui.uiTestJunit)
     androidTestImplementation(Libs.Hilt.test)
-    androidTestImplementation(Libs.OkHttp3.mockWebServer)
+    implementation(Libs.OkHttp3.mockWebServer)
 
     debugImplementation(Libs.AndroidX.Compose.Ui.uiTestManifest)
     debugImplementation(Libs.AndroidX.Compose.Ui.uiTooling)
@@ -121,6 +121,7 @@ dependencies {
     kapt(Libs.Hilt.compiler)
 
     //OkHttp3
+    implementation(platform(Libs.OkHttp3.okhttpbom))
     implementation(Libs.OkHttp3.loginInterceptor)
     implementation(Libs.OkHttp3.okhttp)
 

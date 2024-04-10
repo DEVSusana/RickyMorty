@@ -4,13 +4,13 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.susanadev.rickymorty.data.api.ApiService
 import com.susanadev.rickymorty.data.model.CharacterInfo
-import com.susanadev.rickymorty.presentation.di.NetModule
 import retrofit2.HttpException
 import java.io.IOException
+import javax.inject.Inject
 
-class ResultDataSource(
-    val name: String,
-    private val apiService: ApiService = NetModule.provideApiService(NetModule.provideRetrofit())
+class ResultDataSource @Inject constructor(
+    private val apiService: ApiService,
+    val name: String
 ) : PagingSource<Int, CharacterInfo>() {
 
     override fun getRefreshKey(state: PagingState<Int, CharacterInfo>): Int? {

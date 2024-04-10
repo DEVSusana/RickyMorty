@@ -51,7 +51,7 @@ fun SearchView(state: MutableState<TextFieldValue>, viewModel: ViewModel) {
                     onClick = {
                         state.value =
                             TextFieldValue("")
-                        viewModel.invalidateResultDataSource()
+                       viewModel.invalidateResultDataSource()
                     }
                 ) {
                     Icon(
