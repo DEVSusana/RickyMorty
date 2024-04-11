@@ -4,7 +4,9 @@ import android.app.Application
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -38,6 +40,10 @@ class ViewModel(
     var name = mutableStateOf("")
         private set
 
+    private val _searchText = mutableStateOf(TextFieldValue(""))
+    val searchText: State<TextFieldValue> = _searchText
+
+
     lateinit var resultDataSource: ResultDataSource
 
     var dispatcher: CoroutineDispatcher = Dispatchers.IO
@@ -70,6 +76,10 @@ class ViewModel(
 
     fun setName(name: String) {
         this.name.value = name
+    }
+
+    fun setSearchText(value: TextFieldValue) {
+        _searchText.value = value
     }
 
     val resultCharacterList: Flow<PagingData<CharacterInfo>> = flow {

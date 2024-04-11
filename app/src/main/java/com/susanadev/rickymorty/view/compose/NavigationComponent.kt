@@ -40,12 +40,12 @@ fun NavigationComponent(
         startDestination = "list",
     ) {
         composable("list") {
-            val textState = remember { mutableStateOf(TextFieldValue("")) }
+            val textState = viewModel.searchText
             Scaffold(topBar = {
                 TopAppBar(
                     backgroundColor = Color.DarkGray
                 ) {
-                    SearchView(textState, viewModel)
+                    SearchView(viewModel)
                 }
             }) { padding ->
                 val resultItems: LazyPagingItems<CharacterInfo> =
