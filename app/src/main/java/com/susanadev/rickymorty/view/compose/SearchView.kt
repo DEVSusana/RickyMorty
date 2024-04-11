@@ -49,9 +49,9 @@ fun SearchView(state: MutableState<TextFieldValue>, viewModel: ViewModel) {
             if (state.value != TextFieldValue("")) {
                 IconButton(
                     onClick = {
+                        viewModel.invalidateResultDataSource()
                         state.value =
                             TextFieldValue("")
-                       viewModel.invalidateResultDataSource()
                     }
                 ) {
                     Icon(
