@@ -51,6 +51,9 @@ android {
 }
 
 dependencies {
+    implementation(project(":data"))
+    implementation(project(":domain"))
+    implementation(project(":usecases"))
 
     //Coroutines
     implementation(Libs.Kotlin.Coroutines.core)

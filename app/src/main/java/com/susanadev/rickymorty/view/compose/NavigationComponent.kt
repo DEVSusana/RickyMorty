@@ -23,8 +23,8 @@ import androidx.navigation.navArgument
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import coil.annotation.ExperimentalCoilApi
-import com.susanadev.rickymorty.data.model.CharacterInfo
-import com.susanadev.rickymorty.data.utils.Resource
+import com.susanadev.domain.model.CharacterInfo
+import com.susanadev.domain.utils.Resource
 import com.susanadev.rickymorty.presentation.viewModel.ViewModel
 
 @ExperimentalCoilApi
@@ -46,7 +46,7 @@ fun NavigationComponent(
                     SearchView(textState, viewModel)
                 }
             }) { padding ->
-                val resultItems: LazyPagingItems<CharacterInfo> =
+                val resultItems: LazyPagingItems<com.susanadev.domain.model.CharacterInfo> =
                     if (textState.value.text.isNotEmpty()) {
                         viewModel.resultSearchList.collectAsLazyPagingItems()
                     } else {
@@ -75,7 +75,7 @@ fun NavigationComponent(
             val detail by viewModel.getCharacterDetail.observeAsState()
             when (detail) {
                 is Resource.Success -> {
-                    (detail as Resource.Success<CharacterInfo>).data?.let { it1 ->
+                    (detail as Resource.Success<com.susanadev.domain.model.CharacterInfo>).data?.let { it1 ->
                         DetailView(
                             it1
                         )

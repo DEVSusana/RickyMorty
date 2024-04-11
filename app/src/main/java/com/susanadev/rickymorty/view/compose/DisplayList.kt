@@ -20,9 +20,9 @@ import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import coil.annotation.ExperimentalCoilApi
-import com.susanadev.rickymorty.data.model.CharacterInfo
-import com.susanadev.rickymorty.data.model.Location
-import com.susanadev.rickymorty.data.model.Origin
+import com.susanadev.domain.model.CharacterInfo
+import com.susanadev.domain.model.Location
+import com.susanadev.domain.model.Origin
 import com.susanadev.rickymorty.presentation.viewModel.ViewModel
 import kotlinx.coroutines.flow.flowOf
 
@@ -30,7 +30,7 @@ import kotlinx.coroutines.flow.flowOf
 @Composable
 fun DisplayList(
     navController: NavController,
-    resultItems: LazyPagingItems<CharacterInfo>,
+    resultItems: LazyPagingItems<com.susanadev.domain.model.CharacterInfo>,
     modifier: Modifier = Modifier
 ) {
     Surface(color = Color.LightGray) {
@@ -71,15 +71,18 @@ fun DisplayList(
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun DisplayListPreview() {
-    val characterInfo = CharacterInfo(
+    val characterInfo = com.susanadev.domain.model.CharacterInfo(
         created = "2023-07-03",
         episode = listOf("S01E01", "S01E02"),
         gender = "Male",
         id = 123,
         image = "https://rickandmortyapi.com/api/character/avatar/79.jpeg",
-        location = Location("tierra", "https://example.com/character/123"),
+        location = com.susanadev.domain.model.Location(
+            "tierra",
+            "https://example.com/character/123"
+        ),
         name = "Rick Sanchez",
-        origin = Origin("tierra", "https://example.com/character/123"),
+        origin = com.susanadev.domain.model.Origin("tierra", "https://example.com/character/123"),
         species = "Human",
         status = "Alive",
         type = "Main Character",

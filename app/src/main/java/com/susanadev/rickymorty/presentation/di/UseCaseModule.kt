@@ -1,9 +1,9 @@
 package com.susanadev.rickymorty.presentation.di
 
-import com.susanadev.rickymorty.domain.repository.Repository
-import com.susanadev.rickymorty.domain.usecase.GetDetailUseCase
-import com.susanadev.rickymorty.domain.usecase.GetFilteredListOfCharactersUseCase
-import com.susanadev.rickymorty.domain.usecase.GetListOfCharactersUseCase
+import com.susanadev.domain.repository.Repository
+import com.susanadev.usecases.GetDetailUseCase
+import com.susanadev.usecases.GetFilteredListOfCharactersUseCase
+import com.susanadev.usecases.GetListOfCharactersUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

@@ -1,10 +1,10 @@
 package com.susanadev.rickymorty.data.repository
 
-import com.susanadev.rickymorty.data.model.CharacterInfo
-import com.susanadev.rickymorty.data.model.Location
-import com.susanadev.rickymorty.data.model.Origin
-import com.susanadev.rickymorty.data.repository.dataSource.RemoteDataSource
-import com.susanadev.rickymorty.data.utils.Resource
+import com.susanadev.domain.model.CharacterInfo
+import com.susanadev.domain.model.Location
+import com.susanadev.domain.model.Origin
+import com.susanadev.data.dataSource.RemoteDataSource
+import com.susanadev.domain.utils.Resource
 import kotlinx.coroutines.runBlocking
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.ResponseBody.Companion.toResponseBody
@@ -26,9 +26,9 @@ class RepositoryImplTest {
     private lateinit var mockWebServer: MockWebServer
 
     @Mock
-    private lateinit var mockRemoteDataSource: RemoteDataSource
+    private lateinit var mockRemoteDataSource: com.susanadev.data.dataSource.RemoteDataSource
 
-    private lateinit var repositoryImpl: RepositoryImpl
+    private lateinit var repositoryImpl: com.susanadev.data.RepositoryImpl
 
     @Before
     fun setup() {
@@ -36,7 +36,7 @@ class RepositoryImplTest {
         mockWebServer = MockWebServer()
         mockWebServer.start()
 
-        repositoryImpl = RepositoryImpl(mockRemoteDataSource)
+        repositoryImpl = com.susanadev.data.RepositoryImpl(mockRemoteDataSource)
     }
 
     @After
@@ -47,15 +47,21 @@ class RepositoryImplTest {
     @Test
     fun testGetCharacterOfIdSuccess() {
         // Set up the mock response
-        val characterInfo = CharacterInfo(
+        val characterInfo = com.susanadev.domain.model.CharacterInfo(
             created = "2023-07-03",
             episode = listOf("S01E01", "S01E02"),
             gender = "Male",
             id = 123,
             image = "https://example.com/image.jpg",
-            location = Location("tierra", "https://example.com/character/123"),
+            location = com.susanadev.domain.model.Location(
+                "tierra",
+                "https://example.com/character/123"
+            ),
             name = "Rick Sanchez",
-            origin = Origin("tierra", "https://example.com/character/123"),
+            origin = com.susanadev.domain.model.Origin(
+                "tierra",
+                "https://example.com/character/123"
+            ),
             species = "Human",
             status = "Alive",
             type = "Main Character",

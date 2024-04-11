@@ -6,13 +6,13 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.susanadev.rickymorty.data.api.ApiService
-import com.susanadev.rickymorty.data.model.CharacterInfo
-import com.susanadev.rickymorty.data.model.Location
-import com.susanadev.rickymorty.data.model.Origin
-import com.susanadev.rickymorty.data.utils.Resource
-import com.susanadev.rickymorty.domain.usecase.GetDetailUseCase
-import com.susanadev.rickymorty.domain.usecase.GetFilteredListOfCharactersUseCase
-import com.susanadev.rickymorty.domain.usecase.GetListOfCharactersUseCase
+import com.susanadev.domain.model.CharacterInfo
+import com.susanadev.domain.model.Location
+import com.susanadev.domain.model.Origin
+import com.susanadev.domain.utils.Resource
+import com.susanadev.usecases.usecase.GetDetailUseCase
+import com.susanadev.usecases.usecase.GetFilteredListOfCharactersUseCase
+import com.susanadev.usecases.usecase.GetListOfCharactersUseCase
 import com.susanadev.rickymorty.view.pagin.ResultDataSource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -50,13 +50,13 @@ class ViewModelTest {
     private lateinit var application: Application
 
     @Mock
-    private lateinit var getDetailUseCase: GetDetailUseCase
+    private lateinit var getDetailUseCase: com.susanadev.usecases.usecase.GetDetailUseCase
 
     @Mock
-    private lateinit var getListOfCharactersUseCase: GetListOfCharactersUseCase
+    private lateinit var getListOfCharactersUseCase: com.susanadev.usecases.usecase.GetListOfCharactersUseCase
 
     @Mock
-    private lateinit var getFilteredListOfCharactersUseCase: GetFilteredListOfCharactersUseCase
+    private lateinit var getFilteredListOfCharactersUseCase: com.susanadev.usecases.usecase.GetFilteredListOfCharactersUseCase
 
     @Mock
     private lateinit var apiService: ApiService
@@ -159,15 +159,21 @@ class ViewModelTest {
                 .thenReturn(true)
 
             // Set up response
-            val characterInfo = CharacterInfo(
+            val characterInfo = com.susanadev.domain.model.CharacterInfo(
                 created = "2023-07-03",
                 episode = listOf("S01E01", "S01E02"),
                 gender = "Male",
                 id = 123,
                 image = "https://example.com/image.jpg",
-                location = Location("tierra", "https://example.com/character/123"),
+                location = com.susanadev.domain.model.Location(
+                    "tierra",
+                    "https://example.com/character/123"
+                ),
                 name = "Rick Sanchez",
-                origin = Origin("tierra", "https://example.com/character/123"),
+                origin = com.susanadev.domain.model.Origin(
+                    "tierra",
+                    "https://example.com/character/123"
+                ),
                 species = "Human",
                 status = "Alive",
                 type = "Main Character",

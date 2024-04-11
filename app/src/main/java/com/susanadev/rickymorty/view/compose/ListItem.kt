@@ -27,15 +27,15 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.annotation.ExperimentalCoilApi
 import com.susanadev.rickymorty.R
-import com.susanadev.rickymorty.data.model.CharacterInfo
-import com.susanadev.rickymorty.data.model.Location
-import com.susanadev.rickymorty.data.model.Origin
+import com.susanadev.domain.model.CharacterInfo
+import com.susanadev.domain.model.Location
+import com.susanadev.domain.model.Origin
 
 @OptIn(ExperimentalCoilApi::class)
 @Composable
 fun ListItem(
     navController: NavController,
-    detail: CharacterInfo
+    detail: com.susanadev.domain.model.CharacterInfo
 ) {
     Card(
         modifier = Modifier
@@ -75,15 +75,18 @@ fun ListItem(
 @Preview(showBackground = true)
 @Composable
 fun ListItemPreview() {
-    val characterInfo = CharacterInfo(
+    val characterInfo = com.susanadev.domain.model.CharacterInfo(
         created = "2023-07-03",
         episode = listOf("S01E01", "S01E02"),
         gender = "Male",
         id = 123,
         image = "https://rickandmortyapi.com/api/character/avatar/79.jpeg",
-        location = Location("tierra", "https://example.com/character/123"),
+        location = com.susanadev.domain.model.Location(
+            "tierra",
+            "https://example.com/character/123"
+        ),
         name = "Rick Sanchez",
-        origin = Origin("tierra", "https://example.com/character/123"),
+        origin = com.susanadev.domain.model.Origin("tierra", "https://example.com/character/123"),
         species = "Human",
         status = "Alive",
         type = "Main Character",

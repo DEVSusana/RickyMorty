@@ -21,13 +21,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import coil.annotation.ExperimentalCoilApi
-import com.susanadev.rickymorty.data.model.CharacterInfo
-import com.susanadev.rickymorty.data.model.Location
-import com.susanadev.rickymorty.data.model.Origin
+import com.susanadev.domain.model.CharacterInfo
+import com.susanadev.domain.model.Location
+import com.susanadev.domain.model.Origin
 
 @ExperimentalCoilApi
 @Composable
-fun DetailView(detail: CharacterInfo) {
+fun DetailView(detail: com.susanadev.domain.model.CharacterInfo) {
 
     ConstraintLayout() {
 
@@ -121,15 +121,18 @@ fun DetailView(detail: CharacterInfo) {
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun DetailViewPreview() {
-    val characterInfo = CharacterInfo(
+    val characterInfo = com.susanadev.domain.model.CharacterInfo(
         created = "2023-07-03",
         episode = listOf("S01E01", "S01E02"),
         gender = "Male",
         id = 123,
         image = "https://rickandmortyapi.com/api/character/avatar/79.jpeg",
-        location = Location("tierra", "https://example.com/character/123"),
+        location = com.susanadev.domain.model.Location(
+            "tierra",
+            "https://example.com/character/123"
+        ),
         name = "Rick Sanchez",
-        origin = Origin("tierra", "https://example.com/character/123"),
+        origin = com.susanadev.domain.model.Origin("tierra", "https://example.com/character/123"),
         species = "Human",
         status = "Alive",
         type = "Main Character",

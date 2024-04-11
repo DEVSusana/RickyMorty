@@ -3,7 +3,7 @@ package com.susanadev.rickymorty.view.pagin
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.susanadev.rickymorty.data.api.ApiService
-import com.susanadev.rickymorty.data.model.CharacterInfo
+import com.susanadev.domain.model.CharacterInfo
 import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
@@ -11,13 +11,13 @@ import javax.inject.Inject
 class ResultDataSource @Inject constructor(
     private val apiService: ApiService,
     val name: String
-) : PagingSource<Int, CharacterInfo>() {
+) : PagingSource<Int, com.susanadev.domain.model.CharacterInfo>() {
 
-    override fun getRefreshKey(state: PagingState<Int, CharacterInfo>): Int? {
+    override fun getRefreshKey(state: PagingState<Int, com.susanadev.domain.model.CharacterInfo>): Int? {
         return state.anchorPosition
     }
 
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, CharacterInfo> {
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, com.susanadev.domain.model.CharacterInfo> {
         try {
             if (name.isNotEmpty()) {
                 val outName = name.replace(" ", "_")

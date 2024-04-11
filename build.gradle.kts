@@ -10,7 +10,11 @@ tasks.register("clean", Delete::class) {
 }
 
 buildscript {
-
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
     dependencies {
         classpath(Libs.androidGradlePlugin)
         classpath(Libs.Kotlin.kotlinGradlePlugin)

@@ -1,10 +1,10 @@
 package com.susanadev.rickymorty.domain.usecase
 
-import com.susanadev.rickymorty.data.model.CharacterInfo
-import com.susanadev.rickymorty.data.model.Location
-import com.susanadev.rickymorty.data.model.Origin
-import com.susanadev.rickymorty.data.utils.Resource
-import com.susanadev.rickymorty.domain.repository.Repository
+import com.susanadev.domain.model.CharacterInfo
+import com.susanadev.domain.model.Location
+import com.susanadev.domain.model.Origin
+import com.susanadev.domain.utils.Resource
+import com.susanadev.domain.repository.Repository
 import kotlinx.coroutines.runBlocking
 import okhttp3.Response
 import org.junit.Assert.*
@@ -23,29 +23,35 @@ import org.mockito.junit.MockitoJUnitRunner
 class GetDetailUseCaseTest {
 
     @Mock
-    private lateinit var mockRepository: Repository
+    private lateinit var mockRepository: com.susanadev.domain.repository.Repository
 
-    private lateinit var getDetailUseCase: GetDetailUseCase
+    private lateinit var getDetailUseCase: com.susanadev.usecases.usecase.GetDetailUseCase
 
     @Before
     fun setup() {
         MockitoAnnotations.openMocks(this)
-        getDetailUseCase = GetDetailUseCase(mockRepository)
+        getDetailUseCase = com.susanadev.usecases.usecase.GetDetailUseCase(mockRepository)
     }
 
     @Test
     fun testExecuteSuccess() {
         // Set up the test data
         val id = 123
-        val characterInfo = CharacterInfo(
+        val characterInfo = com.susanadev.domain.model.CharacterInfo(
             created = "2023-07-03",
             episode = listOf("S01E01", "S01E02"),
             gender = "Male",
             id = id,
             image = "https://example.com/image.jpg",
-            location = Location("tierra", "https://example.com/character/123"),
+            location = com.susanadev.domain.model.Location(
+                "tierra",
+                "https://example.com/character/123"
+            ),
             name = "Rick Sanchez",
-            origin = Origin("tierra", "https://example.com/character/123"),
+            origin = com.susanadev.domain.model.Origin(
+                "tierra",
+                "https://example.com/character/123"
+            ),
             species = "Human",
             status = "Alive",
             type = "Main Character",
@@ -71,7 +77,7 @@ class GetDetailUseCaseTest {
         // Set up the test data
         val id = 123
         val errorMessage = "Error retrieving character info"
-        val expectedResource = Resource.Error<CharacterInfo>(errorMessage)
+        val expectedResource = Resource.Error<com.susanadev.domain.model.CharacterInfo>(errorMessage)
 
         // Mock the behavior of the repository
         runBlocking {

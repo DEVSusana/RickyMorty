@@ -2,9 +2,10 @@ package com.susanadev.rickymorty.data.repository.dataSourceImpl
 
 import com.google.gson.Gson
 import com.susanadev.rickymorty.data.api.ApiService
-import com.susanadev.rickymorty.data.model.CharacterInfo
-import com.susanadev.rickymorty.data.model.Location
-import com.susanadev.rickymorty.data.model.Origin
+import com.susanadev.domain.model.CharacterInfo
+import com.susanadev.domain.model.Location
+import com.susanadev.domain.model.Origin
+import com.susanadev.rickymorty.data.repository.RemoteDataSourceImpl
 import kotlinx.coroutines.runBlocking
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
@@ -47,15 +48,21 @@ class RemoteDataSourceImplTest {
     @Test
     fun testGetCharacterOfId() {
         // Set up the mock response
-        val characterInfo  = CharacterInfo(
+        val characterInfo  = com.susanadev.domain.model.CharacterInfo(
             created = "2023-07-03",
             episode = listOf("S01E01", "S01E02"),
             gender = "Male",
             id = 123,
             image = "https://example.com/image.jpg",
-            location = Location("tierra", "https://example.com/character/123"),
+            location = com.susanadev.domain.model.Location(
+                "tierra",
+                "https://example.com/character/123"
+            ),
             name = "Rick Sanchez",
-            origin = Origin("tierra", "https://example.com/character/123"),
+            origin = com.susanadev.domain.model.Origin(
+                "tierra",
+                "https://example.com/character/123"
+            ),
             species = "Human",
             status = "Alive",
             type = "Main Character",

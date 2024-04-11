@@ -4,11 +4,11 @@ import androidx.paging.PagingSource.LoadParams
 import androidx.paging.PagingSource.LoadResult
 import com.google.gson.Gson
 import com.susanadev.rickymorty.data.api.ApiService
-import com.susanadev.rickymorty.data.model.ApiResponse
-import com.susanadev.rickymorty.data.model.CharacterInfo
-import com.susanadev.rickymorty.data.model.Info
-import com.susanadev.rickymorty.data.model.Location
-import com.susanadev.rickymorty.data.model.Origin
+import com.susanadev.domain.model.ApiResponse
+import com.susanadev.domain.model.CharacterInfo
+import com.susanadev.domain.model.Info
+import com.susanadev.domain.model.Location
+import com.susanadev.domain.model.Origin
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -44,17 +44,23 @@ class ResultDataSourceTest {
     @Test
     fun `load - with name, returns character list`() = runBlocking {
         // Mock API response
-        val responseBody = ApiResponse(
-            info = Info(0, "", 0, 0), results = listOf(
-                CharacterInfo(
+        val responseBody = com.susanadev.domain.model.ApiResponse(
+            info = com.susanadev.domain.model.Info(0, "", 0, 0), results = listOf(
+                com.susanadev.domain.model.CharacterInfo(
                     created = "2023-07-03",
                     episode = listOf("S01E01", "S01E02"),
                     gender = "Male",
                     id = 123,
                     image = "https://example.com/image.jpg",
-                    location = Location("tierra", "https://example.com/character/123"),
+                    location = com.susanadev.domain.model.Location(
+                        "tierra",
+                        "https://example.com/character/123"
+                    ),
                     name = "Rick Sanchez",
-                    origin = Origin("tierra", "https://example.com/character/123"),
+                    origin = com.susanadev.domain.model.Origin(
+                        "tierra",
+                        "https://example.com/character/123"
+                    ),
                     species = "Human",
                     status = "Alive",
                     type = "Main Character",
@@ -86,17 +92,23 @@ class ResultDataSourceTest {
     @Test
     fun `load - without name, returns character list`() = runBlocking {
         // Mock API response
-        val responseBody = ApiResponse(
-            info = Info(0, "", 0, 0), results = listOf(
-                CharacterInfo(
+        val responseBody = com.susanadev.domain.model.ApiResponse(
+            info = com.susanadev.domain.model.Info(0, "", 0, 0), results = listOf(
+                com.susanadev.domain.model.CharacterInfo(
                     created = "2023-07-03",
                     episode = listOf("S01E01", "S01E02"),
                     gender = "Male",
                     id = 123,
                     image = "https://example.com/image.jpg",
-                    location = Location("tierra", "https://example.com/character/123"),
+                    location = com.susanadev.domain.model.Location(
+                        "tierra",
+                        "https://example.com/character/123"
+                    ),
                     name = "Rick Sanchez",
-                    origin = Origin("tierra", "https://example.com/character/123"),
+                    origin = com.susanadev.domain.model.Origin(
+                        "tierra",
+                        "https://example.com/character/123"
+                    ),
                     species = "Human",
                     status = "Alive",
                     type = "Main Character",
@@ -148,7 +160,7 @@ class ResultDataSourceTest {
 
         // Call the load function
         val result = dataSource.load(loadParams)
-        val expectedResult = LoadResult.Error<Int, CharacterInfo>(IOException())
+        val expectedResult = LoadResult.Error<Int, com.susanadev.domain.model.CharacterInfo>(IOException())
 
         // Verify the expected result
         assertEquals(result.toString(), expectedResult.toString())
