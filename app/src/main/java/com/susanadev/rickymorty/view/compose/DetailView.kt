@@ -27,7 +27,7 @@ import com.susanadev.domain.model.Origin
 
 @ExperimentalCoilApi
 @Composable
-fun DetailView(detail: com.susanadev.domain.model.CharacterInfo) {
+fun DetailView(detail: CharacterInfo) {
 
     ConstraintLayout() {
 
@@ -121,18 +121,18 @@ fun DetailView(detail: com.susanadev.domain.model.CharacterInfo) {
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun DetailViewPreview() {
-    val characterInfo = com.susanadev.domain.model.CharacterInfo(
+    val characterInfo = CharacterInfo(
         created = "2023-07-03",
         episode = listOf("S01E01", "S01E02"),
         gender = "Male",
         id = 123,
         image = "https://rickandmortyapi.com/api/character/avatar/79.jpeg",
-        location = com.susanadev.domain.model.Location(
+        location = Location(
             "tierra",
             "https://example.com/character/123"
         ),
         name = "Rick Sanchez",
-        origin = com.susanadev.domain.model.Origin("tierra", "https://example.com/character/123"),
+        origin = Origin("tierra", "https://example.com/character/123"),
         species = "Human",
         status = "Alive",
         type = "Main Character",

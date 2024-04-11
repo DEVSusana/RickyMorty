@@ -2,10 +2,12 @@ package com.susanadev.rickymorty.view.compose
 
 import android.util.Log
 import android.widget.Toast
+import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -46,7 +48,7 @@ fun NavigationComponent(
                     SearchView(textState, viewModel)
                 }
             }) { padding ->
-                val resultItems: LazyPagingItems<com.susanadev.domain.model.CharacterInfo> =
+                val resultItems: LazyPagingItems<CharacterInfo> =
                     if (textState.value.text.isNotEmpty()) {
                         viewModel.resultSearchList.collectAsLazyPagingItems()
                     } else {
@@ -67,15 +69,12 @@ fun NavigationComponent(
                 LaunchedEffect(it) {
                     viewModel.getCharacterDetailResponse(it)
                 }
-                val textState = remember { mutableStateOf(TextFieldValue("")) }
-                if (textState.value.text.isNotEmpty()) {
-                    viewModel.invalidateResultDataSource()
-                }
+
             }
             val detail by viewModel.getCharacterDetail.observeAsState()
             when (detail) {
                 is Resource.Success -> {
-                    (detail as Resource.Success<com.susanadev.domain.model.CharacterInfo>).data?.let { it1 ->
+                    (detail as Resource.Success<CharacterInfo>).data?.let { it1 ->
                         DetailView(
                             it1
                         )
@@ -99,6 +98,12 @@ fun NavigationComponent(
                 }
 
                 else -> {
+                }
+            }
+            val backDispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
+            DisposableEffect(backDispatcher) {
+                onDispose {
+                    viewModel.invalidateResultDataSource()
                 }
             }
         }
