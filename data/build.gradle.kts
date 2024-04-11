@@ -1,8 +1,3 @@
-//repositories {
-//    google()
-//    mavenCentral()
-//    gradlePluginPortal()
-//}
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
@@ -48,9 +43,3 @@ dependencies {
     implementation(Libs.Hilt.gradlePlugin)
     kapt(Libs.Hilt.compiler)
 }
-
-//
-//java {
-//    sourceCompatibility = JavaVersion.VERSION_17
-//    targetCompatibility = JavaVersion.VERSION_17
-//}

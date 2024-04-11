@@ -5,15 +5,12 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.susanadev.rickymorty.data.api.ApiService
-import com.susanadev.domain.model.CharacterInfo
-import com.susanadev.domain.model.Location
-import com.susanadev.domain.model.Origin
 import com.susanadev.domain.utils.Resource
-import com.susanadev.usecases.usecase.GetDetailUseCase
-import com.susanadev.usecases.usecase.GetFilteredListOfCharactersUseCase
-import com.susanadev.usecases.usecase.GetListOfCharactersUseCase
+import com.susanadev.rickymorty.data.api.ApiService
 import com.susanadev.rickymorty.view.pagin.ResultDataSource
+import com.susanadev.usecases.GetDetailUseCase
+import com.susanadev.usecases.GetFilteredListOfCharactersUseCase
+import com.susanadev.usecases.GetListOfCharactersUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestDispatcher
@@ -50,13 +47,13 @@ class ViewModelTest {
     private lateinit var application: Application
 
     @Mock
-    private lateinit var getDetailUseCase: com.susanadev.usecases.usecase.GetDetailUseCase
+    private lateinit var getDetailUseCase: GetDetailUseCase
 
     @Mock
-    private lateinit var getListOfCharactersUseCase: com.susanadev.usecases.usecase.GetListOfCharactersUseCase
+    private lateinit var getListOfCharactersUseCase: GetListOfCharactersUseCase
 
     @Mock
-    private lateinit var getFilteredListOfCharactersUseCase: com.susanadev.usecases.usecase.GetFilteredListOfCharactersUseCase
+    private lateinit var getFilteredListOfCharactersUseCase: GetFilteredListOfCharactersUseCase
 
     @Mock
     private lateinit var apiService: ApiService
