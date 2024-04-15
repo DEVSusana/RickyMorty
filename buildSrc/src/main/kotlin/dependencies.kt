@@ -110,6 +110,7 @@ object Libs {
         const val mockWebServer = "com.squareup.okhttp3:mockwebserver:$version"
         const val okhttp = "com.squareup.okhttp3:okhttp:5.0.0-alpha.12"
         const val okhttpbom = "com.squareup.okhttp3:okhttp-bom:$version"
+        const val okio = "com.squareup.okio:okio:1.17.2"
 
     }
 

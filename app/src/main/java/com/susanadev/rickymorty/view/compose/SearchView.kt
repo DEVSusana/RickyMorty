@@ -49,9 +49,8 @@ fun SearchView(viewModel: ViewModel) {
             if (state.value != TextFieldValue("")) {
                 IconButton(
                     onClick = {
-                        viewModel.invalidateResultDataSource()
                         viewModel.setSearchText(TextFieldValue(""))
-
+                        viewModel.invalidateResultDataSource()
                     }
                 ) {
                     Icon(

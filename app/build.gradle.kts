@@ -102,7 +102,8 @@ dependencies {
     androidTestImplementation(Libs.AndroidX.Compose.Ui.uiTestJunit)
     androidTestImplementation(Libs.Hilt.test)
     androidTestImplementation(Libs.Espresso.contrib)
-    implementation(Libs.OkHttp3.mockWebServer)
+    androidTestImplementation(Libs.OkHttp3.mockWebServer)
+    androidTestImplementation(Libs.OkHttp3.okio)
 
     debugImplementation(Libs.AndroidX.Compose.Ui.uiTestManifest)
     debugImplementation(Libs.AndroidX.Compose.Ui.uiTooling)

@@ -1,4 +1,4 @@
-package com.susanadev.rickymorty.data.repository.dataSourceImpl
+package repository.dataSourceImpl
 
 import com.google.gson.Gson
 import com.susanadev.rickymorty.data.api.ApiService

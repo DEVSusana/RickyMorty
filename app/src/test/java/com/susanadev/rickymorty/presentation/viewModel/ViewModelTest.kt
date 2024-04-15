@@ -5,6 +5,9 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.susanadev.domain.model.CharacterInfo
+import com.susanadev.domain.model.Location
+import com.susanadev.domain.model.Origin
 import com.susanadev.domain.utils.Resource
 import com.susanadev.rickymorty.data.api.ApiService
 import com.susanadev.rickymorty.view.pagin.ResultDataSource
@@ -156,18 +159,18 @@ class ViewModelTest {
                 .thenReturn(true)
 
             // Set up response
-            val characterInfo = com.susanadev.domain.model.CharacterInfo(
+            val characterInfo = CharacterInfo(
                 created = "2023-07-03",
                 episode = listOf("S01E01", "S01E02"),
                 gender = "Male",
                 id = 123,
                 image = "https://example.com/image.jpg",
-                location = com.susanadev.domain.model.Location(
+                location = Location(
                     "tierra",
                     "https://example.com/character/123"
                 ),
                 name = "Rick Sanchez",
-                origin = com.susanadev.domain.model.Origin(
+                origin = Origin(
                     "tierra",
                     "https://example.com/character/123"
                 ),

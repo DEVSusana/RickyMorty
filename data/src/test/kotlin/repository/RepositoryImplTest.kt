@@ -1,4 +1,4 @@
-package com.susanadev.rickymorty.data.repository
+package repository
 
 import com.susanadev.domain.model.CharacterInfo
 import com.susanadev.domain.model.Location

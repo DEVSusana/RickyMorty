@@ -43,4 +43,30 @@ dependencies {
     kapt(Libs.AndroidX.Hilt.compiler)
     implementation(Libs.Hilt.gradlePlugin)
     kapt(Libs.Hilt.compiler)
+    //Test
+    testImplementation(Libs.Kotlin.Coroutines.test)
+    testImplementation(Libs.JUnit.junit)
+    testImplementation(Libs.JUnit.junit5)
+    testImplementation(Libs.Mockito.kotlin)
+    testImplementation(Libs.Mockito.inline)
+    testImplementation(Libs.Arch.coreTesting)
+
+    androidTestImplementation(Libs.AndroidX.Test.runner)
+    androidTestImplementation(Libs.AndroidX.Test.rules)
+    androidTestImplementation(Libs.AndroidX.Test.Ext.junit)
+    androidTestImplementation(Libs.AndroidX.Test.Espresso.contrib)
+    androidTestImplementation(Libs.AndroidX.Compose.Ui.uiTestJunit)
+    androidTestImplementation(Libs.Hilt.test)
+    androidTestImplementation(Libs.Espresso.contrib)
+    androidTestImplementation(Libs.OkHttp3.mockWebServer)
+    androidTestImplementation(Libs.OkHttp3.okio)
+
+    debugImplementation(Libs.AndroidX.Compose.Ui.uiTestManifest)
+    debugImplementation(Libs.AndroidX.Compose.Ui.uiTooling)
+
+    kaptAndroidTest(Libs.Hilt.compiler)
+
+
+
+    testImplementation("androidx.arch.core:core-testing:2.2.0")
 }
