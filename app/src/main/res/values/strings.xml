@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">RickyMorty</string>
+      <string name="title_data">data</string>
 </resources>

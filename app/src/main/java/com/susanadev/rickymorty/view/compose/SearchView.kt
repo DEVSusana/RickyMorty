@@ -13,7 +13,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
@@ -24,11 +23,12 @@ import androidx.compose.ui.unit.sp
 import com.susanadev.rickymorty.presentation.viewModel.ViewModel
 
 @Composable
-fun SearchView(state: MutableState<TextFieldValue>, viewModel: ViewModel) {
+fun SearchView(viewModel: ViewModel) {
+    val state = viewModel.searchText
     TextField(
         value = state.value,
         onValueChange = { value ->
-            state.value = value
+            viewModel.setSearchText(value)
             viewModel.setName(value.text)
             viewModel.invalidateResultDataSource()
         },
@@ -49,8 +49,7 @@ fun SearchView(state: MutableState<TextFieldValue>, viewModel: ViewModel) {
             if (state.value != TextFieldValue("")) {
                 IconButton(
                     onClick = {
-                        state.value =
-                            TextFieldValue("")
+                        viewModel.setSearchText(TextFieldValue(""))
                         viewModel.invalidateResultDataSource()
                     }
                 ) {

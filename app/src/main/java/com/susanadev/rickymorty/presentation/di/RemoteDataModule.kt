@@ -1,8 +1,8 @@
 package com.susanadev.rickymorty.presentation.di
 
+import com.susanadev.data.dataSource.RemoteDataSource
 import com.susanadev.rickymorty.data.api.ApiService
-import com.susanadev.rickymorty.data.repository.dataSource.RemoteDataSource
-import com.susanadev.rickymorty.data.repository.dataSourceImpl.RemoteDataSourceImpl
+import com.susanadev.rickymorty.data.repository.RemoteDataSourceImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

@@ -7,11 +7,11 @@ plugins {
 
 android {
     namespace = "com.susanadev.rickymorty"
-    compileSdk = 33
+    compileSdk = 34
     defaultConfig {
         applicationId = "com.susanadev.rickymorty"
         minSdk = 26
-        targetSdk = 33
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -41,7 +41,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = rootProject.extra.get("compose_ui_version") as String
+        kotlinCompilerExtensionVersion = "1.4.3"
     }
     packaging {
         resources {
@@ -51,79 +51,100 @@ android {
 }
 
 dependencies {
+    implementation(project(":data"))
+    implementation(project(":domain"))
+    implementation(project(":usecases"))
 
-    implementation("androidx.core:core-ktx:1.10.1")
-    implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
-    implementation("androidx.activity:activity-compose:1.7.2")
-    implementation("androidx.compose.ui:ui:${rootProject.extra.get("compose_version") as String}")
-    implementation("androidx.compose.ui:ui-tooling-preview:${rootProject.extra.get("compose_version") as String}")
-    implementation("androidx.compose.material:material:${rootProject.extra.get("compose_ui_version") as String}")
-    implementation("androidx.compose.material:material-icons-core:${rootProject.extra.get("compose_ui_version") as String}")
-    implementation("androidx.compose.material:material-icons-extended:${rootProject.extra.get("compose_ui_version") as String}")
-    implementation("androidx.compose.material3:material3:1.1.1")
-    implementation("androidx.compose.material3:material3-window-size-class:1.1.1")
-    implementation("androidx.compose.runtime:runtime-livedata:1.5.0-beta02")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1")
-    implementation("androidx.navigation:navigation-compose:2.7.0-beta01")
-    implementation("androidx.constraintlayout:constraintlayout-compose:1.1.0-alpha10")
-    implementation("androidx.core:core-ktx:1.10.1")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
-    implementation("com.google.code.gson:gson:2.9.0")
+    //Coroutines
+    implementation(Libs.Kotlin.Coroutines.core)
+    implementation(Libs.Kotlin.Coroutines.coroutinesAndroid)
 
+    //AndroidX
+    implementation(Libs.AndroidX.coreKtx)
+    implementation(Libs.AndroidX.appCompat)
+    implementation(Libs.AndroidX.gson)
+    implementation(Libs.AndroidX.constraintLayout)
+    implementation(Libs.AndroidX.activityCompose)
+    implementation(Libs.AndroidX.composeLiveData)
+    implementation(Libs.AndroidX.profilerInstaller)
+
+    //Compose
+    implementation(Libs.AndroidX.Compose.ui)
+    implementation(Libs.AndroidX.Compose.preview)
+    implementation(Libs.AndroidX.Compose.Material.material)
+    implementation(Libs.AndroidX.Compose.Material.iconsCore)
+    implementation(Libs.AndroidX.Compose.Material.iconsExtended)
+    implementation(Libs.AndroidX.Compose.Material3.material3)
+    implementation(Libs.AndroidX.Compose.Material3.material3WindowSize)
+
+
+    //Lifecycle
+    implementation(Libs.AndroidX.Lifecycle.runtimeKtx)
+    implementation(Libs.AndroidX.Lifecycle.viewmodelKtx)
+    implementation(Libs.AndroidX.Lifecycle.viewmodelCompose)
+
+    //Navigation
+    implementation(Libs.AndroidX.Navigation.compose)
 
     //Test
-    testImplementation("junit:junit:4.13.2")
-    testImplementation("org.mockito:mockito-core:5.4.0")
+    testImplementation(Libs.Kotlin.Coroutines.test)
+    testImplementation(Libs.JUnit.junit)
+    testImplementation(Libs.JUnit.junit5)
+    testImplementation(Libs.Mockito.kotlin)
+    testImplementation(Libs.Mockito.inline)
+    testImplementation(Libs.Arch.coreTesting)
+    testImplementation(project(":app"))
+
+    androidTestImplementation(Libs.AndroidX.Test.runner)
+    androidTestImplementation(Libs.AndroidX.Test.rules)
+    androidTestImplementation(Libs.AndroidX.Test.Ext.junit)
+    androidTestImplementation(Libs.AndroidX.Test.Espresso.contrib)
+    androidTestImplementation(Libs.AndroidX.Compose.Ui.uiTestJunit)
+    androidTestImplementation(Libs.Hilt.test)
+    androidTestImplementation(Libs.Espresso.contrib)
+    androidTestImplementation(Libs.OkHttp3.mockWebServer)
+    androidTestImplementation(Libs.OkHttp3.okio)
+
+    debugImplementation(Libs.AndroidX.Compose.Ui.uiTestManifest)
+    debugImplementation(Libs.AndroidX.Compose.Ui.uiTooling)
+
+    kaptAndroidTest(Libs.Hilt.compiler)
+
+
+
     testImplementation("androidx.arch.core:core-testing:2.2.0")
-    testImplementation("com.squareup.okhttp3:mockwebserver:5.0.0-alpha.11")
-    testImplementation("org.junit.jupiter:junit-jupiter:5.8.2")
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.1")
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4:${rootProject.extra.get("compose_version") as String}")
-    debugImplementation("androidx.compose.ui:ui-tooling:${rootProject.extra.get("compose_version") as String}")
-    debugImplementation("androidx.compose.ui:ui-test-manifest:1.4.3")
+
+    //Paging
+    implementation(Libs.AndroidX.Paging.runtime)
+    implementation(Libs.AndroidX.Paging.compose)
+
+    //Hilt
+    implementation(Libs.Hilt.android)
+    implementation(Libs.AndroidX.Hilt.navigation)
+    kapt(Libs.Hilt.androidCompiler)
+    kapt(Libs.AndroidX.Hilt.compiler)
+    implementation(Libs.Hilt.gradlePlugin)
+    kapt(Libs.Hilt.compiler)
+
+    //OkHttp3
+    implementation(platform(Libs.OkHttp3.okhttpbom))
+    implementation(Libs.OkHttp3.loginInterceptor)
+    implementation(Libs.OkHttp3.okhttp)
+
+    //Retrofit
+    implementation(Libs.Retrofit.retrofit)
+    implementation(Libs.Retrofit.adapterRxJava)
+    implementation(Libs.Retrofit.converterGson)
+    implementation(Libs.Retrofit.coroutinesAdapter)
+
+    //Coil
+    implementation(Libs.Coil.accompaistCoil)
+    implementation(Libs.Coil.coilCompose)
+
+    //Arch
+    implementation(Libs.Arch.Pagin.runtime)
+    implementation(Libs.Arch.Pagin.rxjava2)
+    implementation(Libs.Arch.Lifecycle.lifecyclePagin)
 
 
-    // Retrofit
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
-    implementation("com.squareup.retrofit2:adapter-rxjava2:2.9.0")
-    implementation("com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:0.9.2")
-    implementation("com.squareup.okhttp3:okhttp:5.0.0-alpha.3")
-    //Logging Network Calls
-    implementation("com.squareup.okhttp3:logging-interceptor:4.9.1")
-
-
-    // Coroutines
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
-
-    //Coroutines Test
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.1")
-
-
-    // Coroutine Lifecycle Scopes
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
-
-    // Coil
-    implementation("io.coil-kt:coil-compose:2.2.1")
-    implementation("com.google.accompanist:accompanist-coil:0.7.0")
-
-    //Dagger - Hilt
-    implementation("com.google.dagger:hilt-android:${rootProject.extra.get("hilt_version") as String}")
-    kapt("com.google.dagger:hilt-android-compiler:${rootProject.extra.get("hilt_version") as String}")
-    kapt("androidx.hilt:hilt-compiler:1.0.0")
-    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
-
-    //paging
-    implementation("android.arch.lifecycle:extensions:${rootProject.extra.get("lifecycle_version_pagin") as String}")
-    implementation("android.arch.paging:runtime:${rootProject.extra.get("paging_version") as String}")
-    implementation("android.arch.paging:rxjava2:${rootProject.extra.get("paging_version") as String}")
-    implementation("androidx.paging:paging-runtime-ktx:3.2.0")
-    implementation("androidx.paging:paging-compose:3.2.0")
-
-    implementation("androidx.profileinstaller:profileinstaller:1.3.1")
 }

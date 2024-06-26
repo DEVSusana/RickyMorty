@@ -2,19 +2,18 @@ package com.susanadev.rickymorty.view.compose
 
 import android.util.Log
 import android.widget.Toast
+import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -23,8 +22,8 @@ import androidx.navigation.navArgument
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import coil.annotation.ExperimentalCoilApi
-import com.susanadev.rickymorty.data.model.CharacterInfo
-import com.susanadev.rickymorty.data.utils.Resource
+import com.susanadev.domain.model.CharacterInfo
+import com.susanadev.domain.utils.Resource
 import com.susanadev.rickymorty.presentation.viewModel.ViewModel
 
 @ExperimentalCoilApi
@@ -38,12 +37,12 @@ fun NavigationComponent(
         startDestination = "list",
     ) {
         composable("list") {
-            val textState = remember { mutableStateOf(TextFieldValue("")) }
+            val textState = viewModel.searchText
             Scaffold(topBar = {
                 TopAppBar(
                     backgroundColor = Color.DarkGray
                 ) {
-                    SearchView(textState, viewModel)
+                    SearchView(viewModel)
                 }
             }) { padding ->
                 val resultItems: LazyPagingItems<CharacterInfo> =
@@ -67,6 +66,7 @@ fun NavigationComponent(
                 LaunchedEffect(it) {
                     viewModel.getCharacterDetailResponse(it)
                 }
+
             }
             val detail by viewModel.getCharacterDetail.observeAsState()
             when (detail) {
@@ -95,6 +95,12 @@ fun NavigationComponent(
                 }
 
                 else -> {
+                }
+            }
+            val backDispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
+            DisposableEffect(backDispatcher) {
+                onDispose {
+                    viewModel.invalidateResultDataSource()
                 }
             }
         }
