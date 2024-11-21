@@ -35,7 +35,7 @@ import com.susanadev.domain.model.Origin
 @Composable
 fun ListItem(
     navController: NavController,
-    detail: com.susanadev.domain.model.CharacterInfo
+    detail: CharacterInfo
 ) {
     Card(
         modifier = Modifier
@@ -75,7 +75,7 @@ fun ListItem(
 @Preview(showBackground = true)
 @Composable
 fun ListItemPreview() {
-    val characterInfo = com.susanadev.domain.model.CharacterInfo(
+    val characterInfo = CharacterInfo(
         created = "2023-07-03",
         episode = listOf("S01E01", "S01E02"),
         gender = "Male",
