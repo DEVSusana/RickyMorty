@@ -2,8 +2,11 @@ package com.susanadev.rickymorty.presentation.di
 
 import android.app.Application
 import androidx.lifecycle.ViewModelProvider
-import com.susanadev.rickymorty.domain.usecase.GetDetailUseCase
+import com.susanadev.rickymorty.data.api.ApiService
 import com.susanadev.rickymorty.presentation.viewModel.ViewModelFactory
+import com.susanadev.usecases.GetDetailUseCase
+import com.susanadev.usecases.GetFilteredListOfCharactersUseCase
+import com.susanadev.usecases.GetListOfCharactersUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -17,12 +20,18 @@ object FactoryModule {
     @Singleton
     fun provideViewModelFactory(
         application: Application,
-        getDetailUseCase: GetDetailUseCase
+        getDetailUseCase: GetDetailUseCase,
+        getListOfCharactersUseCase: GetListOfCharactersUseCase,
+        getFilteredListOfCharactersUseCase: GetFilteredListOfCharactersUseCase,
+        apiService: ApiService
 
     ): ViewModelProvider.Factory {
         return ViewModelFactory(
             application,
-            getDetailUseCase
+            getDetailUseCase,
+            getListOfCharactersUseCase,
+            getFilteredListOfCharactersUseCase,
+            apiService
         )
     }
 }

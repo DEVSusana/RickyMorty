@@ -4,13 +4,8 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -20,10 +15,9 @@ import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import coil.annotation.ExperimentalCoilApi
-import com.susanadev.rickymorty.data.model.CharacterInfo
-import com.susanadev.rickymorty.data.model.Location
-import com.susanadev.rickymorty.data.model.Origin
-import com.susanadev.rickymorty.presentation.viewModel.ViewModel
+import com.susanadev.domain.model.CharacterInfo
+import com.susanadev.domain.model.Location
+import com.susanadev.domain.model.Origin
 import kotlinx.coroutines.flow.flowOf
 
 @ExperimentalCoilApi
@@ -77,7 +71,10 @@ fun DisplayListPreview() {
         gender = "Male",
         id = 123,
         image = "https://rickandmortyapi.com/api/character/avatar/79.jpeg",
-        location = Location("tierra", "https://example.com/character/123"),
+        location = Location(
+            "tierra",
+            "https://example.com/character/123"
+        ),
         name = "Rick Sanchez",
         origin = Origin("tierra", "https://example.com/character/123"),
         species = "Human",

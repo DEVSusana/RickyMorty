@@ -1,7 +1,7 @@
 package com.susanadev.rickymorty.data.api
 
-import com.susanadev.rickymorty.data.model.ApiResponse
-import com.susanadev.rickymorty.data.model.CharacterInfo
+import com.susanadev.domain.model.ApiResponse
+import com.susanadev.domain.model.CharacterInfo
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
